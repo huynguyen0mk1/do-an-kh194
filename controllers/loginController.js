@@ -27,6 +27,7 @@ exports.getAllUser = (req, res) => {
 };
 exports.getUser = (req, res) => {
   if (req.body.key === "111111111") {
+    // console.log(req.body.user);
     login.checkUser(req.body.user, (err, result) => {
       if (err) res.json({ data: result, note: "User Name is Incorrect" });
       else {

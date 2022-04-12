@@ -2,8 +2,227 @@
 const jwt = require("jsonwebtoken");
 module.exports = function (app) {
   var login = require("../controllers/loginController");
-  app.get("/", (req, res) => res.send("Hello World"));
+  var seller = require("../controllers/sellerController");
+  var public = require("../controllers/publicController");
+  var admin = require("../controllers/adminController");
 
+  app.get("/", (req, res) =>
+    res.json([
+      {
+        navItem: "History",
+        icon: "",
+        to: "/history-crawl-web",
+        children: [
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+        ],
+      },
+      {
+        navItem: "Users",
+        icon: "",
+        to: "/ManagerUser",
+        children: [
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+          {
+            navItem: "History",
+            icon: "",
+            to: "/history-crawl-web",
+            children: [],
+          },
+          {
+            navItem: "Users",
+            icon: "",
+            to: "/ManagerUser",
+            children: [],
+          },
+        ],
+      },
+    ])
+  );
+  //public
+  app.get("/getAllParentCategory", public.getAllParentCategory);
+  app.get("/getAllCategory", public.getAllCategory);
+
+  //account
+  app.post("/login/taikhoan/:date/:code", login.getUser);
+  app.post("/dangkitaikhoan", login.saveUser);
+  app.post("/getRole", login.getRole);
+
+  //seller
+  app.post("/getALLShop", seller.getAllShop);
+
+  //admin
+  app.post("/admin/getAllProduct", admin.getAllProduct);
+  app.post("/admin/getALLShop", admin.getAllShop);
+
+  app.get("/getAllUser", login.getAllUser);
+  app.get("/getAudio/:num", (req, res) => {
+    let fileName = req.params.num;
+    const path = require("path");
+    const pathFile = path.resolve(`./public/audio/${fileName}`);
+    sendfile(fileName, pathFile, res);
+  });
+  app.get("/getImage/:fileName", (req, res) => {
+    let fileName = req.params.fileName;
+    const path = require("path");
+    const pathFile = path.resolve(`./public/images/${fileName}`);
+    sendfile(fileName, pathFile, res);
+  });
+  app.get("/getCss/:fileName", (req, res) => {
+    let fileName = req.params.fileName;
+    const path = require("path");
+    const pathFile = path.resolve(`./public/css/${fileName}`);
+    sendfile(fileName, pathFile, res);
+  });
+  app.get("/getJs/:fileName", (req, res) => {
+    let fileName = req.params.fileName;
+    const path = require("path");
+    const pathFile = path.resolve(`./public/js/${fileName}`);
+    sendfile(fileName, pathFile, res);
+  });
+  app.get("/getFile/:fileName", (req, res) => {
+    let fileName = req.params.fileName;
+    const path = require("path");
+    const pathFile = path.resolve(
+      `./public/${fileName.split(".")[1]}/${fileName}`
+    );
+    sendfile(fileName, pathFile, res);
+  });
+  app.post("/uploadFile", (req, res) => {
+    //console.log(req.files);
+    if (req.files === null || req.files === undefined) {
+      res.json({ status: "error" });
+    } else {
+      let file = req.files.file;
+      let dirname = __dirname + "/../public/" + file.name.split(".")[1] + "/";
+      const fs = require("fs");
+      if (!fs.existsSync(dirname)) {
+        fs.mkdir(dirname, { recursive: true }, (err) => {
+          if (err) throw err;
+        });
+      }
+      let name = file.name.split(".")[0] + "." + file.name.split(".")[1];
+      name = name.replace(/\s+/g, "");
+      let path = dirname + name;
+      file.mv(path, (error) => {
+        if (error) {
+          res.json({ status: "error", message: error });
+          return;
+        } else {
+          //console.log(dirname + name);
+          res.json({
+            status: "success",
+            data: name,
+          });
+        }
+      });
+    }
+  });
   async function sendfile(fileName, pathFile, res) {
     let file = "No found file";
     const fs = require("fs");
@@ -259,71 +478,4 @@ module.exports = function (app) {
       });
     } else res.send(file);
   }
-  app.post("/login/taikhoan/:date/:code", login.getUser);
-  app.post("/dangkitaikhoan", login.saveUser);
-  app.post("/getRole", login.getRole);
-
-  app.get("/getAllUser", login.getAllUser);
-  app.get("/getAudio/:num", (req, res) => {
-    let fileName = req.params.num;
-    const path = require("path");
-    const pathFile = path.resolve(`./public/audio/${fileName}`);
-    sendfile(fileName, pathFile, res);
-  });
-  app.get("/getImage/:fileName", (req, res) => {
-    let fileName = req.params.fileName;
-    const path = require("path");
-    const pathFile = path.resolve(`./public/images/${fileName}`);
-    sendfile(fileName, pathFile, res);
-  });
-  app.get("/getCss/:fileName", (req, res) => {
-    let fileName = req.params.fileName;
-    const path = require("path");
-    const pathFile = path.resolve(`./public/css/${fileName}`);
-    sendfile(fileName, pathFile, res);
-  });
-  app.get("/getJs/:fileName", (req, res) => {
-    let fileName = req.params.fileName;
-    const path = require("path");
-    const pathFile = path.resolve(`./public/js/${fileName}`);
-    sendfile(fileName, pathFile, res);
-  });
-  app.get("/getFile/:fileName", (req, res) => {
-    let fileName = req.params.fileName;
-    const path = require("path");
-    const pathFile = path.resolve(
-      `./public/${fileName.split(".")[1]}/${fileName}`
-    );
-    sendfile(fileName, pathFile, res);
-  });
-  app.post("/uploadFile", (req, res) => {
-    //console.log(req.files);
-    if (req.files === null || req.files === undefined) {
-      res.json({ status: "error" });
-    } else {
-      let file = req.files.file;
-      let dirname = __dirname + "/../public/" + file.name.split(".")[1] + "/";
-      const fs = require("fs");
-      if (!fs.existsSync(dirname)) {
-        fs.mkdir(dirname, { recursive: true }, (err) => {
-          if (err) throw err;
-        });
-      }
-      let name = file.name.split(".")[0] + "." + file.name.split(".")[1];
-      name = name.replace(/\s+/g, "");
-      let path = dirname + name;
-      file.mv(path, (error) => {
-        if (error) {
-          res.json({ status: "error", message: error });
-          return;
-        } else {
-          //console.log(dirname + name);
-          res.json({
-            status: "success",
-            data: name,
-          });
-        }
-      });
-    }
-  });
 };
