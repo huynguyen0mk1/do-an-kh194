@@ -110,5 +110,20 @@ Login.getAllUser = (result) => {
     );
   }
 };
-
+Login.getIdUser = (code, data) => {
+  {
+    sql.query(
+      "SELECT DISTINCT id FROM users WHERE code =?",
+      [code],
+      (err, res) => {
+        if (err) {
+          //console.log("error: ", err);
+          data(err, { status: false });
+        } else {
+          data(null, { status: true, data: res[0] });
+        }
+      }
+    );
+  }
+};
 module.exports = Login;

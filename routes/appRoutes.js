@@ -154,11 +154,26 @@ module.exports = function (app) {
   app.post("/getRole", login.getRole);
 
   //seller
-  app.post("/getALLShop", seller.getAllShop);
+  app.post("/seller/getALLShop", seller.getAllShop);
+  app.post("/seller/getAShop", seller.getAShop);
+  app.post("/seller/newShop", seller.newShop);
+  app.post("/seller/updateShop", seller.updateInfoShop);
+  app.post("/seller/getListCategoryShop", seller.getListCategoryShop);
+  app.post("/seller/newProduct", seller.newProduct);
+  app.post("/seller/getAllProductUser", seller.getAllProductUser);
+  app.post("/seller/updateProduct", seller.updateProduct);
+  app.post("/seller/getAProductUser", seller.getAProductUser);
+  app.post("/seller/deleteProduct", seller.deleteProduct);
 
   //admin
   app.post("/admin/getAllProduct", admin.getAllProduct);
   app.post("/admin/getALLShop", admin.getAllShop);
+  app.post("/admin/newCategory", admin.newCategory);
+  app.post("/admin/updateCategory", admin.updateCategory);
+  app.post("/admin/getACategory", admin.getACategory);
+  app.post("/admin/deleteCategory", admin.deleteCategory);
+  app.post("/admin/updateStatusShop", admin.updateStatusShop);
+  app.post("/admin/updateStatusProduct", admin.updateStatusProduct);
 
   app.get("/getAllUser", login.getAllUser);
   app.get("/getAudio/:num", (req, res) => {
