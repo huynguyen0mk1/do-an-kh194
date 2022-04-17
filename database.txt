@@ -9,7 +9,7 @@
 
 CREATE TABLE `Users`
 (
- `id`           text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `email`        text NOT NULL ,
  `first_name`   text NOT NULL ,
  `last_name`    text NOT NULL ,
@@ -17,7 +17,7 @@ CREATE TABLE `Users`
  `avatar`       text NOT NULL ,
  `birthday`     date NOT NULL ,
  `number_phone` text NOT NULL ,
-
+`code`  varchar(256) NOT NULL ,
 PRIMARY KEY (`id`)
 );
 
@@ -34,7 +34,7 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE `addresses`
 (
- `id`           text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `country`      text NOT NULL ,
  `city`         text NOT NULL ,
  `address`      text NOT NULL ,
@@ -55,10 +55,10 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE `cart`
 (
- `id`         text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `amount`     int NOT NULL ,
- `id_user`    text NOT NULL ,
- `id_product` text NOT NULL ,
+ `id_user`     varchar(256) NOT NULL ,
+ `id_product`  varchar(256) NOT NULL ,
 
 PRIMARY KEY (`id`),
 KEY `FK_83` (`id_product`),
@@ -79,9 +79,9 @@ CONSTRAINT `FK_84` FOREIGN KEY `FK_86` (`id_user`) REFERENCES `Users` (`id`)
 
 CREATE TABLE `categorys`
 (
- `id`          text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `name`        text NOT NULL ,
- `parent_id`   text NOT NULL ,
+ `parent_id`    varchar(256) NOT NULL ,
  `description` text NOT NULL ,
  `image`       text NOT NULL ,
 
@@ -102,12 +102,12 @@ CONSTRAINT `FK_54` FOREIGN KEY `FK_56` (`parent_id`) REFERENCES `categorys` (`id
 
 CREATE TABLE `comments`
 (
- `id`         text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `content`    text NOT NULL ,
- `id_image`   text NOT NULL ,
- `id_product` text NOT NULL ,
- `id_user`    text NOT NULL ,
- `parent_id`  text NOT NULL ,
+ `id_image`    varchar(256) NOT NULL ,
+ `id_product`  varchar(256) NOT NULL ,
+ `id_user`     varchar(256) NOT NULL ,
+ `parent_id`   varchar(256) NOT NULL ,
 
 PRIMARY KEY (`id`),
 KEY `FK_147` (`parent_id`),
@@ -131,9 +131,9 @@ CONSTRAINT `FK_156` FOREIGN KEY `FK_158` (`id_image`) REFERENCES `images` (`id`)
 
 CREATE TABLE `images`
 (
- `id`         text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `name`       text NOT NULL ,
- `id_product` text NOT NULL ,
+ `id_product`  varchar(256) NOT NULL ,
 
 PRIMARY KEY (`id`),
 KEY `FK_73` (`id_product`),
@@ -152,8 +152,8 @@ CONSTRAINT `FK_71` FOREIGN KEY `FK_73` (`id_product`) REFERENCES `products` (`id
 
 CREATE TABLE `list_address`
 (
- `id_address` text NOT NULL ,
- `id_user`    text NOT NULL ,
+ `id_address`  varchar(256) NOT NULL ,
+ `id_user`     varchar(256) NOT NULL ,
 
 PRIMARY KEY (`id_address`, `id_user`)
 );
@@ -169,12 +169,12 @@ PRIMARY KEY (`id_address`, `id_user`)
 
 CREATE TABLE `orders`
 (
- `id`               text NOT NULL ,
+ `id`                varchar(256) NOT NULL ,
  `create_date`      datetime NOT NULL ,
- `id_shipping`      text NOT NULL ,
+ `id_shipping`       varchar(256) NOT NULL ,
  `address_shipping` text NOT NULL ,
- `id_user`          text NOT NULL ,
- `id_shop`          text NOT NULL ,
+ `id_user`           varchar(256) NOT NULL ,
+ `id_shop`           varchar(256) NOT NULL ,
  `total`            float NOT NULL ,
  `status`           text NOT NULL ,
  `code_shipping`    text NOT NULL ,
@@ -202,10 +202,10 @@ CONSTRAINT `FK_183` FOREIGN KEY `FK_185` (`id_shipping`) REFERENCES `shipping_un
 
 CREATE TABLE `orders_detail`
 (
- `id`         text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `amount`     int NOT NULL ,
- `id_product` text NOT NULL ,
- `id_order`   text NOT NULL ,
+ `id_product`  varchar(256) NOT NULL ,
+ `id_order`    varchar(256) NOT NULL ,
  `subtotal`   float NOT NULL ,
  `price`      float NOT NULL ,
 
@@ -227,10 +227,10 @@ CONSTRAINT `FK_169` FOREIGN KEY `FK_171` (`id_product`) REFERENCES `products` (`
 
 CREATE TABLE `products`
 (
- `id`                text NOT NULL ,
+ `id`                 varchar(256) NOT NULL ,
  `name`              text NOT NULL ,
- `id_shop`           text NOT NULL ,
- `id_category`       text NOT NULL ,
+ `id_shop`            varchar(256) NOT NULL ,
+ `id_category`        varchar(256) NOT NULL ,
  `full_description`  text NOT NULL ,
  `short_description` text NOT NULL ,
  `price`             float NOT NULL ,
@@ -257,7 +257,7 @@ CONSTRAINT `FK_96` FOREIGN KEY `FK_98` (`id_shop`) REFERENCES `shops` (`id`)
 
 CREATE TABLE `Roles`
 (
- `id`          text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `description` text NOT NULL ,
  `name`        text NOT NULL ,
 
@@ -275,9 +275,9 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE `shipping_unit`
 (
- `id`          text NOT NULL ,
+ `id`           varchar(256) NOT NULL ,
  `name`        text NOT NULL ,
- `id_shop`     text NOT NULL ,
+ `id_shop`      varchar(256) NOT NULL ,
  `description` text NOT NULL ,
  `price`       float NOT NULL ,
 
@@ -297,9 +297,10 @@ CONSTRAINT `FK_186` FOREIGN KEY `FK_188` (`id_shop`) REFERENCES `shops` (`id`)
 
 CREATE TABLE `shops`
 (
- `id`                text NOT NULL ,
+ `id`                 varchar(256) NOT NULL ,
  `name`              text NOT NULL ,
- `id_user`           text NOT NULL ,
+ `id_user`            varchar(256) NOT NULL ,
+ `id_category`        varchar(256) NOT NULL ,
  `is_activate`       int NOT NULL ,
  `full_description`  text NOT NULL ,
  `short_description` text NOT NULL ,
@@ -321,53 +322,29 @@ CONSTRAINT `FK_99` FOREIGN KEY `FK_101` (`id_user`) REFERENCES `Users` (`id`)
 
 
 
--- ************************************** `Users`
-
-CREATE TABLE `Users`
-(
- `id`           text NOT NULL ,
- `email`        text NOT NULL ,
- `first_name`   text NOT NULL ,
- `last_name`    text NOT NULL ,
- `password`     text NOT NULL ,
- `avatar`       text NOT NULL ,
- `birthday`     date NOT NULL ,
- `number_phone` text NOT NULL ,
-
-PRIMARY KEY (`id`)
-);
-
-
-
-
--- **************************** SqlDBM: MySQL ***************************
--- *** Generated by SqlDBM: ban hang, v1 by tanthuyhoangmk1@gmail.com ***
-
-
-
 -- ************************************** `Users_role`
 
 CREATE TABLE `Users_role`
 (
- `id_user` text NOT NULL ,
- `id_role` text NOT NULL ,
+ `id_user`  varchar(256) NOT NULL ,
+ `id_role`  varchar(256) NOT NULL ,
 
 PRIMARY KEY (`id_user`, `id_role`)
 );
 
+ALTER ALGORITHM = TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `allcategorydetail` AS select `c1`.`id` AS `id`,`c1`.`name` AS `name`,`c2`.`name` AS `parent_name`,`c1`.`description` AS `description`,`c1`.`image` AS `image` from (`ban_hang`.`categorys` `c1` left join `ban_hang`.`categorys` `c2` on(`c2`.`id` = `c1`.`parent_id`))
 
 
 
+ALTER ALGORITHM = TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `allproduct` AS select `p`.`id` AS `id`,`p`.`name` AS `name`,`p`.`id_shop` AS `id_shop`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`name` AS `shop_name`,`p`.`id_category` AS `id_category`,`c`.`name` AS `category_name`,`p`.`full_description` AS `full_description`,`p`.`short_description` AS `short_description`,`p`.`price` AS `price`,`p`.`total` AS `total`,`p`.`main_image` AS `main_image`,`p`.`is_activate` AS `is_activate`,date_format(`p`.`create_date`,'%Y%m%d') AS `create_date` from (((`ban_hang`.`products` `p` join `ban_hang`.`shops` `s` on(`s`.`id` = `p`.`id_shop`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `p`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))
 
 
 
+ALTER ALGORITHM = TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `allshop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`s`.`id_user` AS `id_user`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`id_category` AS `id_category`,`c`.`name` AS `name_category`,`s`.`is_activate` AS `is_activate`,`s`.`full_description` AS `full_description`,`s`.`short_description` AS `short_description`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date` from ((`ban_hang`.`shops` `s` join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`))
 
 
 
-
-
-
-
+ALTER ALGORITHM = TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sellershop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`c`.`name` AS `name_category`,`c`.`id` AS `id_category`,`s`.`is_activate` AS `is_activate`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date`,`u`.`code` AS `code`,`s`.`short_description` AS `short_description`,`s`.`full_description` AS `full_description` from ((`ban_hang`.`shops` `s` join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))
 
 
 
