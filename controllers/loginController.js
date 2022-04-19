@@ -7,7 +7,9 @@ exports.saveUser = (req, res) => {
       if (err) res.json({ data: result });
       else {
         if (result.data.length > 0)
-          res.json({ data: { status: false, data: [] } });
+          res.json({
+            data: { status: false, Message: err.sqlMessage, data: [] },
+          });
         else
           login.saveUser(req.body.user, (err1, resultA) => {
             if (err1) res.json({ data: resultA });
@@ -42,6 +44,7 @@ exports.getUser = (req, res) => {
             if (err)
               res.json({
                 status: false,
+                Message: err.sqlMessage,
                 data: resultA,
                 note: "Password is Incorrect",
               });
@@ -68,7 +71,7 @@ exports.getRole = (req, res) => {
       else {
         if (result.data.length !== 1)
           res.json({
-            data: { status: false, data: [] },
+            data: { status: false, Message: err.sqlMessage, data: [] },
             note: "User Name is Incorrect",
           });
         else {

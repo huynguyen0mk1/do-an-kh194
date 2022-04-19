@@ -2,6 +2,8 @@
 var shop = require("../models/shopModel");
 var category = require("../models/categoryModel");
 var product = require("../models/productModel");
+var unit = require("../models/unitShippingModel");
+
 exports.getAllShop = (req, res) => {
   shop.getAllWithUser(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -58,6 +60,36 @@ exports.getAllProductUser = (req, res) => {
 };
 exports.getAProductUser = (req, res) => {
   product.getAProductUser(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.newShippingUnit = (req, res) => {
+  unit.newShippingUnit(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.listShippingUnit = (req, res) => {
+  unit.listShippingUnit(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getAShippingUnit = (req, res) => {
+  unit.getAShippingUnit(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.updateShippingUnit = (req, res) => {
+  unit.updateShippingUnit(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.deleteShippingUnit = (req, res) => {
+  unit.deleteShippingUnit(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });

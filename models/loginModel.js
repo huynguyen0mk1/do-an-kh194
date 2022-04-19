@@ -9,14 +9,14 @@ Login.saveUser = (user, result) => {
     sql.query("INSERT INTO Users  set ?", user, (err, res) => {
       if (err) {
         console.log(user);
-        result(err, { status: false });
+        result(err, { status: false, Message: err.sqlMessage });
       } else {
         sql.query(
           "INSERT INTO users_role  set ?",
           { id_user: user.id, id_role: "role-002" },
           (err, res) => {
             if (err) {
-              result(err, { status: false });
+              result(err, { status: false, Message: err.sqlMessage });
             } else {
               result(null, { status: true });
             }
@@ -34,7 +34,7 @@ Login.getUser = (user, result) => {
       (err, res) => {
         if (err) {
           //console.log("error: ", err);
-          result(err, { status: false, data: [] });
+          result(err, { status: false, Message: err.sqlMessage, data: [] });
         } else {
           result(null, { status: true, data: res[0] });
         }
@@ -50,7 +50,7 @@ Login.getRole = (user, result) => {
       (err, res) => {
         if (err) {
           //console.log("error: ", err);
-          result(err, { status: false, data: [] });
+          result(err, { status: false, Message: err.sqlMessage, data: [] });
         } else {
           result(null, { status: true, data: res });
         }
@@ -66,7 +66,7 @@ Login.checkUser = (user, result) => {
       (err, res) => {
         if (err) {
           console.log("error: ", err);
-          result(err, { status: false, data: [] });
+          result(err, { status: false, Message: err.sqlMessage, data: [] });
         } else {
           if (res.length == 1)
             sql.query(
@@ -102,7 +102,7 @@ Login.getAllUser = (result) => {
       (err, res) => {
         if (err) {
           //console.log("error: ", err);
-          result(err, { status: false, data: err });
+          result(err, { status: false, Message: err.sqlMessage, data: err });
         } else {
           result(null, { status: true, data: res });
         }
@@ -118,7 +118,7 @@ Login.getIdUser = (code, data) => {
       (err, res) => {
         if (err) {
           //console.log("error: ", err);
-          data(err, { status: false });
+          data(err, { status: false, Message: err.sqlMessage });
         } else {
           data(null, { status: true, data: res[0] });
         }

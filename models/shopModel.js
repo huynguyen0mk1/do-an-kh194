@@ -12,7 +12,7 @@ Shop.getAllWithUser = (info, result) => {
     [info.code],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -25,7 +25,7 @@ Shop.getAllWithUserAndShop = (info, result) => {
     [info.id, info.code],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res[0] });
       }
@@ -38,7 +38,7 @@ Shop.getAllShop = (info, result) => {
 
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -51,7 +51,7 @@ Shop.updateStatusShop = (info, result) => {
     [info.id],
     (err, res) => {
       if (err) {
-        result(err, { status: false });
+        result(err, { status: false, Message: err.sqlMessage });
       } else {
         result(null, { status: true });
       }
@@ -64,7 +64,7 @@ Shop.updateInfoShop = (info, result) => {
     info,
     (err, res) => {
       if (err) {
-        result(err, { status: false });
+        result(err, { status: false, Message: err.sqlMessage });
       } else {
         result(null, { status: true });
       }
@@ -81,8 +81,8 @@ Shop.newShop = (info, result) => {
         { ...info, id_user: data.data.id },
         (err, res) => {
           if (err) {
-            console.log(err);
-            result(err, { status: false });
+            
+            result(err, { status: false, Message: err.sqlMessage });
           } else {
             result(null, { status: true });
           }

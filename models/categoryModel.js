@@ -10,7 +10,7 @@ Category.getAllParent = (result) => {
     "SELECT id, name, description FROM categorys WHERE parent_id = null or parent_id = ''",
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -23,7 +23,7 @@ Category.getACategory = (info, result) => {
     [info.id],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res[0] });
       }
@@ -36,7 +36,7 @@ Category.getListCategoryShop = (info, result) => {
     [info.id, info.code, info.id, info.code],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -49,7 +49,7 @@ Category.getAllCategory = (result) => {
     "SELECT `id`, `name`, `parent_name`, `description`, `image` FROM `allcategorydetail`",
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -59,8 +59,8 @@ Category.getAllCategory = (result) => {
 Category.newCategory = (info, result) => {
   sql.query("INSERT INTO `categorys` set ?", info, (err, res) => {
     if (err) {
-      console.log(err);
-      result(err, { status: false });
+      console.log(err.sqlMessage);
+      result(err, { status: false, Message: err.sqlMessage});
     } else {
       result(null, { status: true });
     }
@@ -72,8 +72,8 @@ Category.updateCategory = (info, result) => {
     info,
     (err, res) => {
       if (err) {
-        console.log(err);
-        result(err, { status: false });
+        
+        result(err, { status: false, Message: err.sqlMessage });
       } else {
         result(null, { status: true });
       }
@@ -83,7 +83,7 @@ Category.updateCategory = (info, result) => {
 Category.deleteCategory = (info, result) => {
   sql.query("DELETE FROM `categorys` WHERE id = ?", [info.id], (err, res) => {
     if (err) {
-      result(err, { status: false });
+      result(err, { status: false, Message: err.sqlMessage });
     } else {
       result(null, { status: true });
     }

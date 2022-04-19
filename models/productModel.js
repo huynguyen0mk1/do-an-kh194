@@ -10,7 +10,7 @@ Product.getAllProductInShop = (info, result) => {
     [info.id_shop],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -22,7 +22,7 @@ Product.getAllProduct = (info, result) => {
     "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`",
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -35,7 +35,7 @@ Product.getAllProductUser = (info, result) => {
     [info.code],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
       }
@@ -48,7 +48,7 @@ Product.getAProductUser = (info, result) => {
     [info.id, info.code],
     (err, res) => {
       if (err) {
-        result(err, { status: false, data: [] });
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res[0] });
       }
@@ -58,7 +58,7 @@ Product.getAProductUser = (info, result) => {
 Product.newProduct = (info, result) => {
   sql.query("INSERT INTO `products` set ?", info, (err, res) => {
     if (err) {
-      result(err, { status: false });
+      result(err, { status: false, Message: err.sqlMessage });
     } else {
       result(null, { status: true });
     }
@@ -67,7 +67,7 @@ Product.newProduct = (info, result) => {
 Product.deleteProduct = (info, result) => {
   sql.query("DELETE FROM `products` WHERE id =?", [info.id], (err, res) => {
     if (err) {
-      result(err, { status: false });
+      result(err, { status: false, Message: err.sqlMessage });
     } else {
       result(null, { status: true });
     }
@@ -79,7 +79,7 @@ Product.updateStatusProduct = (info, result) => {
     [info.id],
     (err, res) => {
       if (err) {
-        result(err, { status: false });
+        result(err, { status: false, Message: err.sqlMessage });
       } else {
         result(null, { status: true });
       }
@@ -102,7 +102,7 @@ Product.updateProduct = (info, result) => {
     ],
     (err, res) => {
       if (err) {
-        result(err, { status: false });
+        result(err, { status: false, Message: err.sqlMessage });
       } else {
         result(null, { status: true });
       }

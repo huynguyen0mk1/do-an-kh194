@@ -164,6 +164,11 @@ module.exports = function (app) {
   app.post("/seller/updateProduct", seller.updateProduct);
   app.post("/seller/getAProductUser", seller.getAProductUser);
   app.post("/seller/deleteProduct", seller.deleteProduct);
+  app.post("/seller/newShippingUnit", seller.newShippingUnit);
+  app.post("/seller/listShippingUnit", seller.listShippingUnit);
+  app.post("/seller/getAShippingUnit", seller.getAShippingUnit);
+  app.post("/seller/updateShippingUnit", seller.updateShippingUnit);
+  app.post("/seller/deleteShippingUnit", seller.deleteShippingUnit);
 
   //admin
   app.post("/admin/getAllProduct", admin.getAllProduct);
