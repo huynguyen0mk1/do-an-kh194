@@ -1,0 +1,257 @@
+<div id="page_content"><div class="show_create_results">
+  <h2>Hiện tạo các truy vấn</h2>
+
+      <fieldset>
+      <legend>Các bảng</legend>
+      <table class="pma-table show_create">
+        <thead>
+          <tr>
+            <th>Bảng</th>
+            <th>Tạo bảng</th>
+          </tr>
+        </thead>
+        <tbody>
+                      <tr>
+              <td><strong>addresses</strong></td>
+              <td>CREATE TABLE `addresses` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`country` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`city` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`address` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`full_name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`number_phone` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>cart</strong></td>
+              <td>CREATE TABLE `cart` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`amount` int(11) NOT NULL,<br>
+ &nbsp;`id_user` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_product` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_83` (`id_product`),<br>
+ &nbsp;KEY `FK_86` (`id_user`),<br>
+ &nbsp;CONSTRAINT `FK_81` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_84` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>categorys</strong></td>
+              <td>CREATE TABLE `categorys` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`parent_id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`image` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>comments</strong></td>
+              <td>CREATE TABLE `comments` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`content` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_image` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_product` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_user` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`parent_id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_147` (`parent_id`),<br>
+ &nbsp;KEY `FK_150` (`id_user`),<br>
+ &nbsp;KEY `FK_155` (`id_product`),<br>
+ &nbsp;KEY `FK_158` (`id_image`),<br>
+ &nbsp;CONSTRAINT `FK_145` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_148` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_153` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_156` FOREIGN KEY (`id_image`) REFERENCES `images` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>images</strong></td>
+              <td>CREATE TABLE `images` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_product` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_73` (`id_product`),<br>
+ &nbsp;CONSTRAINT `FK_71` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>list_address</strong></td>
+              <td>CREATE TABLE `list_address` (<br>
+ &nbsp;`id_address` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_user` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id_address`,`id_user`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>orders</strong></td>
+              <td>CREATE TABLE `orders` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`create_date` datetime NOT NULL,<br>
+ &nbsp;`id_shipping` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`address_shipping` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_user` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_shop` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`total` float NOT NULL,<br>
+ &nbsp;`status` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`code_shipping` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_120` (`id_shop`),<br>
+ &nbsp;KEY `FK_123` (`id_user`),<br>
+ &nbsp;KEY `FK_131` (`address_shipping`),<br>
+ &nbsp;KEY `FK_185` (`id_shipping`),<br>
+ &nbsp;CONSTRAINT `FK_118` FOREIGN KEY (`id_shop`) REFERENCES `shops` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_121` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_129` FOREIGN KEY (`address_shipping`) REFERENCES `addresses` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_183` FOREIGN KEY (`id_shipping`) REFERENCES `shipping_unit` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>orders_detail</strong></td>
+              <td>CREATE TABLE `orders_detail` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`amount` int(11) NOT NULL,<br>
+ &nbsp;`id_product` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_order` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`subtotal` float NOT NULL,<br>
+ &nbsp;`price` float NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_168` (`id_order`),<br>
+ &nbsp;KEY `FK_171` (`id_product`),<br>
+ &nbsp;CONSTRAINT `FK_166` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_169` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>products</strong></td>
+              <td>CREATE TABLE `products` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_shop` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_category` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`full_description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`short_description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`price` float NOT NULL,<br>
+ &nbsp;`sale` float NOT NULL,<br>
+ &nbsp;`maxSale` int(11) NOT NULL,<br>
+ &nbsp;`total` int(11) NOT NULL,<br>
+ &nbsp;`main_image` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`is_activate` int(11) NOT NULL,<br>
+ &nbsp;`create_date` datetime NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_65` (`id_category`),<br>
+ &nbsp;KEY `FK_98` (`id_shop`),<br>
+ &nbsp;CONSTRAINT `FK_63` FOREIGN KEY (`id_category`) REFERENCES `categorys` (`id`),<br>
+ &nbsp;CONSTRAINT `FK_96` FOREIGN KEY (`id_shop`) REFERENCES `shops` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>roles</strong></td>
+              <td>CREATE TABLE `roles` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>shipping_unit</strong></td>
+              <td>CREATE TABLE `shipping_unit` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_shop` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`price` float NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_188` (`id_shop`),<br>
+ &nbsp;CONSTRAINT `FK_186` FOREIGN KEY (`id_shop`) REFERENCES `shops` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>shops</strong></td>
+              <td>CREATE TABLE `shops` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_user` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_category` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`is_activate` int(11) NOT NULL,<br>
+ &nbsp;`full_description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`short_description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`phone_number` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`address` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`create_date` datetime NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`),<br>
+ &nbsp;KEY `FK_101` (`id_user`),<br>
+ &nbsp;CONSTRAINT `FK_99` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>users</strong></td>
+              <td>CREATE TABLE `users` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`email` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`first_name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`last_name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`password` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`avatar` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`birthday` date NOT NULL,<br>
+ &nbsp;`number_phone` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`code` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
+              <td><strong>users_role</strong></td>
+              <td>CREATE TABLE `users_role` (<br>
+ &nbsp;`id_user` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_role` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id_user`,`id_role`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                  </tbody>
+      </table>
+    </fieldset>
+  
+      <fieldset>
+      <legend>Trình bày</legend>
+      <table class="pma-table show_create">
+        <thead>
+          <tr>
+            <th>View</th>
+            <th>Tạo view</th>
+          </tr>
+        </thead>
+        <tbody>
+                      <tr>
+              <td><strong>allcart</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allcart` AS select `c`.`id` AS `id`,`c`.`amount` AS `amount`,`c`.`id_user` AS `id_user`,`u`.`code` AS `code`,`c`.`id_product` AS `id_product`,`p`.`name` AS `name_product`,`p`.`price` AS `price`,`p`.`main_image` AS `main_image` from ((`ban_hang`.`cart` `c` join `ban_hang`.`products` `p` on(`p`.`id` = `c`.`id_product`)) join `ban_hang`.`users` `u` on(`u`.`id` = `c`.`id_user`))</td>
+            </tr>
+                      <tr>
+              <td><strong>allcategorydetail</strong></td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allcategorydetail` AS select `c1`.`id` AS `id`,`c1`.`name` AS `name`,`c2`.`name` AS `parent_name`,`c2`.`id` AS `parent_id`,`c1`.`description` AS `description`,`c1`.`image` AS `image` from (`ban_hang`.`categorys` `c1` left join `ban_hang`.`categorys` `c2` on(`c2`.`id` = `c1`.`parent_id`))</td>
+            </tr>
+                      <tr>
+              <td><strong>allproduct</strong></td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allproduct` AS select `p`.`id` AS `id`,`p`.`name` AS `name`,`p`.`id_shop` AS `id_shop`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`name` AS `shop_name`,`p`.`id_category` AS `id_category`,`c`.`name` AS `category_name`,`c`.`parent_id` AS `category_parent_id`,`p`.`full_description` AS `full_description`,`p`.`short_description` AS `short_description`,`p`.`price` AS `price`,`p`.`total` AS `total`,`p`.`main_image` AS `main_image`,`p`.`is_activate` AS `is_activate`,date_format(`p`.`create_date`,'%Y%m%d') AS `create_date` from (((`ban_hang`.`products` `p` join `ban_hang`.`shops` `s` on(`s`.`id` = `p`.`id_shop`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `p`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
+            </tr>
+                      <tr>
+              <td><strong>allshop</strong></td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allshop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`s`.`id_user` AS `id_user`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`id_category` AS `id_category`,`c`.`name` AS `name_category`,`s`.`is_activate` AS `is_activate`,`s`.`full_description` AS `full_description`,`s`.`short_description` AS `short_description`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date` from ((`ban_hang`.`shops` `s` join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`))</td>
+            </tr>
+                      <tr>
+              <td><strong>sellershop</strong></td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`sellershop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`c`.`name` AS `name_category`,`c`.`id` AS `id_category`,`s`.`is_activate` AS `is_activate`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date`,`u`.`code` AS `code`,`s`.`short_description` AS `short_description`,`s`.`full_description` AS `full_description` from ((`ban_hang`.`shops` `s` join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
+            </tr>
+                      <tr>
+              <td><strong>unitshippingofshop</strong></td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`unitshippingofshop` AS select `su`.`id` AS `id`,`su`.`name` AS `name`,`su`.`id_shop` AS `id_shop`,`s`.`name` AS `name_shop`,`su`.`description` AS `description`,`su`.`price` AS `price`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `full_name` from ((`ban_hang`.`shipping_unit` `su` join `ban_hang`.`shops` `s` on(`s`.`id` = `su`.`id_shop`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
+            </tr>
+                  </tbody>
+      </table>
+    </fieldset>
+  </div>
+</div>
