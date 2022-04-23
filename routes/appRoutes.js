@@ -5,7 +5,7 @@ module.exports = function (app) {
   var seller = require("../controllers/sellerController");
   var public = require("../controllers/publicController");
   var admin = require("../controllers/adminController");
-
+  var customer = require("../controllers/customerController");
   app.get("/", (req, res) =>
     res.json([
       {
@@ -147,6 +147,7 @@ module.exports = function (app) {
   //public
   app.get("/getAllParentCategory", public.getAllParentCategory);
   app.get("/getAllCategory", public.getAllCategory);
+  app.get("/getListCategorys", public.getListCategorys);
 
   //account
   app.post("/login/taikhoan/:date/:code", login.getUser);
@@ -179,6 +180,10 @@ module.exports = function (app) {
   app.post("/admin/deleteCategory", admin.deleteCategory);
   app.post("/admin/updateStatusShop", admin.updateStatusShop);
   app.post("/admin/updateStatusProduct", admin.updateStatusProduct);
+  // customer
+  app.post("/customer/changeCart", customer.changeCart);
+  app.post("/customer/getAllProductCategory", customer.getAllProductCategory);
+  app.post("/customer/getAProduct", customer.getAProduct);
 
   app.get("/getAllUser", login.getAllUser);
   app.get("/getAudio/:num", (req, res) => {
@@ -237,6 +242,36 @@ module.exports = function (app) {
           //console.log(dirname + name);
           res.json({
             status: "success",
+            data: name,
+          });
+        }
+      });
+    }
+  });
+  app.post("/uploadImageProduct", (req, res) => {
+    //console.log(req.files);
+    if (req.files === null || req.files === undefined) {
+      res.json({ status: false });
+    } else {
+      let file = req.files.file;
+      let dirname = __dirname + "/../public/images/";
+      const fs = require("fs");
+      if (!fs.existsSync(dirname)) {
+        fs.mkdir(dirname, { recursive: true }, (err) => {
+          if (err) throw err;
+        });
+      }
+      let name = file.name.split(".")[0] + "." + file.name.split(".")[1];
+      name = name.replace(/\s+/g, "");
+      let path = dirname + name;
+      file.mv(path, (error) => {
+        if (error) {
+          res.json({ status: false, message: error });
+          return;
+        } else {
+          //console.log(dirname + name);
+          res.json({
+            status: true,
             data: name,
           });
         }

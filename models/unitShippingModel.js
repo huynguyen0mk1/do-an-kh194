@@ -60,5 +60,5 @@ Unit.deleteShippingUnit = (info, result) => {
       result(null, { status: true });
     }
   });
-};
+};  
 module.exports = Unit;

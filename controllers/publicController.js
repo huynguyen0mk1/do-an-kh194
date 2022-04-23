@@ -11,4 +11,11 @@ exports.getAllCategory = (req, res) => {
       if (err) res.json({ data: result });
       else res.json({ data: result });
     });
-  };
+};
+
+exports.getListCategorys = (req, res) => {
+  category.getListCategorys((err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};

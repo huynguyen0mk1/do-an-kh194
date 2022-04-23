@@ -67,11 +67,11 @@ exports.getRole = (req, res) => {
   //console.log(req.body.user);
   if (req.body.key === "111111111") {
     login.getRole(req.body.user, (err, result) => {
-      if (err) res.json({ data: result, note: "User Name is Incorrect" });
+      if (err) res.json({ data: result,Message: err.sqlMessage, note: "User Name is Incorrect" });
       else {
         if (result.data.length !== 1)
           res.json({
-            data: { status: false, Message: err.sqlMessage, data: [] },
+            data: { status: false,  data: [] },
             note: "User Name is Incorrect",
           });
         else {

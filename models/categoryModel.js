@@ -60,7 +60,7 @@ Category.newCategory = (info, result) => {
   sql.query("INSERT INTO `categorys` set ?", info, (err, res) => {
     if (err) {
       console.log(err.sqlMessage);
-      result(err, { status: false, Message: err.sqlMessage});
+      result(err, { status: false, Message: err.sqlMessage });
     } else {
       result(null, { status: true });
     }
@@ -72,7 +72,6 @@ Category.updateCategory = (info, result) => {
     info,
     (err, res) => {
       if (err) {
-        
         result(err, { status: false, Message: err.sqlMessage });
       } else {
         result(null, { status: true });
@@ -89,4 +88,37 @@ Category.deleteCategory = (info, result) => {
     }
   });
 };
+
+Category.getListCategorys = (result) => {
+  sql.query(
+    "SELECT `id`, `name`, `parent_id`, `description`, `image` FROM `allcategorydetail`",
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        if (res.length > 0) {
+          let arr = [];
+          arr = res.map((item) => {
+            if (
+              item.parent_id === null ||
+              item.parent_id === undefined ||
+              item.parent_id === ""
+            )
+              return {
+                ...item,
+                arr: res
+                  .map((item1) => {
+                    if (item1.parent_id === item.id) return item1;
+                  })
+                  .filter((item2) => item2 != null),
+              };
+          }).filter((item3) => item3 != null);
+
+          result(null, { status: true, data: arr });
+        }
+      }
+    }
+  );
+};
+
 module.exports = Category;
