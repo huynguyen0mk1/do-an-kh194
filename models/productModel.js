@@ -55,6 +55,20 @@ Product.getAllProductCategory = (info, result) => {
     }
   );
 };
+
+Product.getAllProductCustomer = (info, result) => {
+  sql.query(
+    "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`",
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, { status: true, data: res });
+      }
+    }
+  );
+};
+
 Product.getAProductUser = (info, result) => {
   sql.query(
     "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE id = ? and code = ?",

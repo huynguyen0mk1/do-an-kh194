@@ -18,8 +18,44 @@ Cart.deleteCart = (info, result) => {
     }
   );
 };
+Cart.deleteACart = (info, result) => {
+  sql.query("DELETE FROM `cart` WHERE id = ? ", [info.id], (err, res) => {
+    if (err) {
+      result(err, { status: false, Message: err.sqlMessage });
+    } else {
+      result(null, { status: true });
+    }
+  });
+};
+Cart.getAllCart = (info, result) => {
+  sql.query(
+    "SELECT `id`, `amount`, `id_user`, `code`, `id_product`, `name_product`, `price`, `main_image` FROM `allcart` WHERE code = ?",
+    [info.code],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, { status: true, data: res });
+      }
+    }
+  );
+};
+Cart.changAmount = (info, result) => {
+  sql.query(
+    "UPDATE cart SET amount=IF('-'=?,IF(amount>1,amount-1,1),IF('+'=?,amount+1,amount)) WHERE id= ?",
+    [info.value, info.value, info.id],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage });
+      } else {
+        result(null, { status: true });
+      }
+    }
+  );
+};
 
 Cart.changeCart = (info, result) => {
+  console.log(info);
   sql.query(
     "SELECT id, amount, id_user,id_product FROM cart WHERE id_user = ? and id_product  = ?",
     [info.user_id, info.product_id],

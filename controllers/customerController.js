@@ -13,8 +13,34 @@ exports.deleteCart = (req, res) => {
     else res.json({ data: result });
   });
 };
+exports.deleteACart = (req, res) => {
+  cart.deleteACart(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getAllCart = (req, res) => {
+  cart.getAllCart(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
+exports.changAmount = (req, res) => {
+  cart.changAmount(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
 exports.getAllProductCategory = (req, res) => {
   product.getAllProductCategory(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getAllProductCustomer = (req, res) => {
+  product.getAllProductCustomer(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });

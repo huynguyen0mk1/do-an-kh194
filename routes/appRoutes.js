@@ -183,7 +183,12 @@ module.exports = function (app) {
   // customer
   app.post("/customer/changeCart", customer.changeCart);
   app.post("/customer/getAllProductCategory", customer.getAllProductCategory);
+  
+  app.post("/customer/getAllProductCustomer", customer.getAllProductCustomer);
   app.post("/customer/getAProduct", customer.getAProduct);
+  app.post("/customer/getAllCart", customer.getAllCart);
+  app.post("/customer/changAmount", customer.changAmount);
+  app.post("/customer/deleteACart", customer.deleteACart);
 
   app.get("/getAllUser", login.getAllUser);
   app.get("/getAudio/:num", (req, res) => {
