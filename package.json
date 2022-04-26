@@ -23,6 +23,7 @@
     "express-fileupload": "^1.2.0",
     "formidable": "^1.2.2",
     "fs": "0.0.1-security",
+    "hash.js": "^1.1.7",
     "hashmap": "^2.4.0",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
