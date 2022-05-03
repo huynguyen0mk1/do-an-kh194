@@ -171,6 +171,9 @@ module.exports = function (app) {
   app.post("/seller/updateShippingUnit", seller.updateShippingUnit);
   app.post("/seller/deleteShippingUnit", seller.deleteShippingUnit);
 
+  app.post("/seller/getSellerWeek", seller.getSellerWeek);
+  app.post("/seller/getSellerMonth", seller.getSellerMonth);
+  app.post("/seller/getSellerOrder", seller.getSellerOrder);
   //admin
   app.post("/admin/getAllProduct", admin.getAllProduct);
   app.post("/admin/getALLShop", admin.getAllShop);
@@ -187,6 +190,7 @@ module.exports = function (app) {
   app.post("/customer/getAllProductCustomer", customer.getAllProductCustomer);
   app.post("/customer/getAProduct", customer.getAProduct);
   app.post("/customer/getAllCart", customer.getAllCart);
+  app.post("/customer/getAllCartUser", customer.getAllCartUser);
   app.post("/customer/changAmount", customer.changAmount);
   app.post("/customer/deleteACart", customer.deleteACart);
   app.post("/customer/createPayment", customer.createPayment);

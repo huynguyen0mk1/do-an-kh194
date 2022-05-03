@@ -3,6 +3,8 @@ var shop = require("../models/shopModel");
 var category = require("../models/categoryModel");
 var product = require("../models/productModel");
 var unit = require("../models/unitShippingModel");
+let transactionStatistics = require("../models/transactionStatisticsModel");
+var order = require("../models/orderModel");
 
 exports.getAllShop = (req, res) => {
   shop.getAllWithUser(req.body.info, (err, result) => {
@@ -90,6 +92,25 @@ exports.updateShippingUnit = (req, res) => {
 };
 exports.deleteShippingUnit = (req, res) => {
   unit.deleteShippingUnit(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
+exports.getSellerWeek = (req, res) => {
+  transactionStatistics.getSellerWeek(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getSellerMonth = (req, res) => {
+  transactionStatistics.getSellerMonth(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getSellerOrder = (req, res) => {
+  order.getSellerOrder(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });
