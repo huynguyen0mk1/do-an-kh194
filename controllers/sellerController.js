@@ -5,6 +5,7 @@ var product = require("../models/productModel");
 var unit = require("../models/unitShippingModel");
 let transactionStatistics = require("../models/transactionStatisticsModel");
 var order = require("../models/orderModel");
+var voucher = require("../models/voucherModel");
 
 exports.getAllShop = (req, res) => {
   shop.getAllWithUser(req.body.info, (err, result) => {
@@ -111,6 +112,55 @@ exports.getSellerMonth = (req, res) => {
 };
 exports.getSellerOrder = (req, res) => {
   order.getSellerOrder(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getInforOrder = (req, res) => {
+  order.getInforOrder(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getInfoDetailOrder = (req, res) => {
+  order.getInfoDetailOrder(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.updateOrder = (req, res) => {
+  order.updateOrder(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getAVoucher = (req, res) => {
+  console.log(req.body.info);
+  voucher.getAVoucher(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getProductVoucher = (req, res) => {
+  voucher.getProductVoucher(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.newVoucher = (req, res) => {
+  voucher.newVoucher(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.updateVoucher = (req, res) => {
+  voucher.updateVoucher(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.deleteVoucher = (req, res) => {
+  voucher.deleteVoucher(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });

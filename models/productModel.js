@@ -44,7 +44,7 @@ Product.getAllProductUser = (info, result) => {
 };
 Product.getAllProductCategory = (info, result) => {
   sql.query(
-    "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE category_parent_id = ? or id_category  = ?",
+    "SELECT `id`, `name`, sale,maxSale, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE category_parent_id = ? or id_category  = ?",
     [info.code, info.code],
     (err, res) => {
       if (err) {
@@ -58,7 +58,7 @@ Product.getAllProductCategory = (info, result) => {
 
 Product.getAllProductCustomer = (info, result) => {
   sql.query(
-    "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`",
+    "SELECT `id`, `name`, `id_shop`, sale,maxSale, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`",
     (err, res) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage, data: [] });
@@ -71,7 +71,7 @@ Product.getAllProductCustomer = (info, result) => {
 
 Product.getAProductUser = (info, result) => {
   sql.query(
-    "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE id = ? and code = ?",
+    "SELECT `id`, `name`, `id_shop`,sale,maxSale, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE id = ? and code = ?",
     [info.id, info.code],
     (err, res) => {
       if (err) {
@@ -115,8 +115,10 @@ Product.updateStatusProduct = (info, result) => {
 };
 Product.updateProduct = (info, result) => {
   sql.query(
-    "UPDATE `products` set name=?, full_description=?, short_description=?, price=?, total=?, main_image=?,id_shop=?,id_category=? WHERE id =?",
+    "UPDATE  `products` set sale=?, maxSale=?, name=?, full_description=?, short_description=?, price=?, total=?, main_image=?,id_shop=?,id_category=? WHERE id =?",
     [
+      info.sale,
+      info.maxSale,
       info.name,
       info.full_description,
       info.short_description,

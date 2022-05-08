@@ -4,6 +4,7 @@ let product = require("../models/productModel");
 let orderDetail = require("../models/OrderDetailModel");
 let order = require("../models/orderModel");
 let address = require("../models/addressModel");
+let category = require("../models/categoryModel");
 exports.changeCart = (req, res) => {
   cart.changeCart(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -47,6 +48,12 @@ exports.getAllProductCategory = (req, res) => {
     else res.json({ data: result });
   });
 };
+exports.getAllCategoryHot = (req, res) => {
+  category.getAllCategoryHot((err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
 exports.getAllProductCustomer = (req, res) => {
   product.getAllProductCustomer(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -61,7 +68,11 @@ exports.getAProduct = (req, res) => {
 };
 exports.createPayment = (req, res) => {
   if (req.body.new_billing_address === true) {
-    address.newAddress(req.body.billing_address, req.body.list_address, (err, resultNewAddress) => {});
+    address.newAddress(
+      req.body.billing_address,
+      req.body.list_address,
+      (err, resultNewAddress) => {}
+    );
   }
   order.newOrder(req.body.list_order, (err, resultNewOrder) => {
     if (resultNewOrder.status === true) {

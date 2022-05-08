@@ -174,6 +174,16 @@ module.exports = function (app) {
   app.post("/seller/getSellerWeek", seller.getSellerWeek);
   app.post("/seller/getSellerMonth", seller.getSellerMonth);
   app.post("/seller/getSellerOrder", seller.getSellerOrder);
+
+  app.post("/seller/getInforOrder", seller.getInforOrder);
+  app.post("/seller/getInfoDetailOrder", seller.getInfoDetailOrder);
+  app.post("/seller/updateOrder", seller.updateOrder);
+
+  app.post("/seller/getAVoucher", seller.getAVoucher);
+  app.post("/seller/getProductVoucher", seller.getProductVoucher);
+  app.post("/seller/updateVoucher", seller.updateVoucher);
+  app.post("/seller/deleteVoucher", seller.deleteVoucher);
+  app.post("/seller/newVoucher", seller.newVoucher);
   //admin
   app.post("/admin/getAllProduct", admin.getAllProduct);
   app.post("/admin/getALLShop", admin.getAllShop);
@@ -186,7 +196,7 @@ module.exports = function (app) {
   // customer
   app.post("/customer/changeCart", customer.changeCart);
   app.post("/customer/getAllProductCategory", customer.getAllProductCategory);
-  
+
   app.post("/customer/getAllProductCustomer", customer.getAllProductCustomer);
   app.post("/customer/getAProduct", customer.getAProduct);
   app.post("/customer/getAllCart", customer.getAllCart);
@@ -195,6 +205,8 @@ module.exports = function (app) {
   app.post("/customer/deleteACart", customer.deleteACart);
   app.post("/customer/createPayment", customer.createPayment);
   app.post("/customer/paymentReturn", customer.paymentReturn);
+
+  app.post("/customer/getAllCategoryHot", customer.getAllCategoryHot);
 
   app.get("/getAllUser", login.getAllUser);
   app.get("/getAudio/:num", (req, res) => {
