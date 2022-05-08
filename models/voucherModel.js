@@ -13,7 +13,13 @@ Voucher.getAVoucher = (info, result) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
-        result(null, { status: true, data: res[0] });
+        result(null, {
+          status: true,
+          data: {
+            ...res[0],
+            date_end: new Date(res[0].date_end).toISOString().slice(0, 16),
+          },
+        });
       }
     }
   );

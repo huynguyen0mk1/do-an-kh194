@@ -190,6 +190,7 @@
  &nbsp;`short_description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
  &nbsp;`phone_number` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
  &nbsp;`address` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`image` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
  &nbsp;`create_date` datetime NOT NULL,<br>
  &nbsp;PRIMARY KEY (`id`),<br>
  &nbsp;KEY `FK_101` (`id_user`),<br>
@@ -219,6 +220,23 @@
  &nbsp;PRIMARY KEY (`id_user`,`id_role`)<br>
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
             </tr>
+                      <tr>
+              <td><strong>voucher</strong></td>
+              <td>CREATE TABLE `voucher` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`id_apply` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`code_voucher` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`date_start` datetime NOT NULL,<br>
+ &nbsp;`date_end` datetime NOT NULL,<br>
+ &nbsp;`percent` float NOT NULL,<br>
+ &nbsp;`max_value` int(11) NOT NULL,<br>
+ &nbsp;`image` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`create_date` datetime NOT NULL,<br>
+ &nbsp;PRIMARY KEY (`id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
                   </tbody>
       </table>
     </fieldset>
@@ -239,7 +257,11 @@
             </tr>
                       <tr>
               <td><strong>allcategorydetail</strong></td>
-              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allcategorydetail` AS select `c1`.`id` AS `id`,`c1`.`name` AS `name`,`c2`.`name` AS `parent_name`,`c2`.`id` AS `parent_id`,`c1`.`description` AS `description`,`c1`.`image` AS `image` from (`ban_hang`.`categorys` `c1` left join `ban_hang`.`categorys` `c2` on(`c2`.`id` = `c1`.`parent_id`))</td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allcategorydetail` AS select `c1`.`id` AS `id`,`c1`.`name` AS `name`,`c2`.`name` AS `parent_name`,`c2`.`id` AS `parent_id`,`c1`.`description` AS `description`,`c1`.`image` AS `image`,`c1`.`percent` AS `percent`,`c1`.`max_value` AS `max_value` from (`ban_hang`.`categorys` `c1` left join `ban_hang`.`categorys` `c2` on(`c2`.`id` = `c1`.`parent_id`))</td>
+            </tr>
+                      <tr>
+              <td><strong>allinfodetailorder</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allinfodetailorder` AS select `o`.`id` AS `id`,`o`.`amount` AS `amount`,`o`.`id_product` AS `id_product`,`p`.`name` AS `name_product`,`o`.`id_order` AS `id_order`,`o`.`subtotal` AS `subtotal`,`o`.`price` AS `price`,`p`.`main_image` AS `main_image` from (`ban_hang`.`orders_detail` `o` join `ban_hang`.`products` `p` on(`p`.`id` = `o`.`id_product`))</td>
             </tr>
                       <tr>
               <td><strong>allorder</strong></td>
@@ -247,15 +269,23 @@
             </tr>
                       <tr>
               <td><strong>allproduct</strong></td>
-              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allproduct` AS select `p`.`id` AS `id`,`p`.`name` AS `name`,`p`.`id_shop` AS `id_shop`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`name` AS `shop_name`,`p`.`id_category` AS `id_category`,`c`.`name` AS `category_name`,`c`.`parent_id` AS `category_parent_id`,`p`.`full_description` AS `full_description`,`p`.`short_description` AS `short_description`,`p`.`price` AS `price`,`p`.`total` AS `total`,`p`.`main_image` AS `main_image`,`p`.`is_activate` AS `is_activate`,date_format(`p`.`create_date`,'%Y%m%d') AS `create_date` from (((`ban_hang`.`products` `p` join `ban_hang`.`shops` `s` on(`s`.`id` = `p`.`id_shop`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `p`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allproduct` AS select `p`.`id` AS `id`,`p`.`name` AS `name`,`p`.`id_shop` AS `id_shop`,`p`.`sale` AS `sale`,`p`.`maxSale` AS `maxSale`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`name` AS `shop_name`,`p`.`id_category` AS `id_category`,`c`.`name` AS `category_name`,`c`.`parent_id` AS `category_parent_id`,`p`.`full_description` AS `full_description`,`p`.`short_description` AS `short_description`,`p`.`price` AS `price`,`p`.`total` AS `total`,`p`.`main_image` AS `main_image`,`p`.`is_activate` AS `is_activate`,date_format(`p`.`create_date`,'%Y%m%d') AS `create_date` from (((`ban_hang`.`products` `p` join `ban_hang`.`shops` `s` on(`s`.`id` = `p`.`id_shop`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `p`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
             </tr>
                       <tr>
               <td><strong>allshop</strong></td>
               <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allshop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`s`.`id_user` AS `id_user`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_user`,`s`.`id_category` AS `id_category`,`c`.`name` AS `name_category`,`s`.`is_activate` AS `is_activate`,`s`.`full_description` AS `full_description`,`s`.`short_description` AS `short_description`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date` from ((`ban_hang`.`shops` `s` join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`))</td>
             </tr>
                       <tr>
+              <td><strong>category_hot</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`category_hot` AS select `c`.`id` AS `id`,`c`.`name` AS `name`,`c`.`image` AS `image`,sum(`od`.`amount`) AS `amount` from ((`ban_hang`.`categorys` `c` left join `ban_hang`.`products` `p` on(`p`.`id_category` = `c`.`id`)) left join `ban_hang`.`orders_detail` `od` on(`od`.`id_product` = `p`.`id`)) group by `c`.`id`,`c`.`name`,`c`.`image` order by sum(`od`.`amount`) desc</td>
+            </tr>
+                      <tr>
+              <td><strong>infoorder</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`infoorder` AS select `o`.`id` AS `id`,date_format(`o`.`create_date`,'%d/%m/%Y %h:%i %p') AS `create_date`,`o`.`id_shipping` AS `id_shipping`,`su`.`name` AS `name_unit_ship`,`su`.`price` AS `price_unit_ship`,`o`.`address_shipping` AS `address_shipping`,`a`.`full_name` AS `full_name_cust`,`a`.`number_phone` AS `number_phone`,`a`.`email` AS `email`,`a`.`address` AS `address`,`a`.`city` AS `city`,`o`.`id_user` AS `id_user`,`o`.`id_shop` AS `id_shop`,`s`.`name` AS `name_shop`,`o`.`total` AS `total`,`o`.`status` AS `status`,`o`.`status_ship` AS `status_ship`,`o`.`code_shipping` AS `code_shipping`,`o`.`payment_method` AS `payment_method`,`o`.`note` AS `note`,`o`.`percent` AS `percent`,`o`.`max_value` AS `max_value` from (((`ban_hang`.`orders` `o` join `ban_hang`.`addresses` `a` on(`a`.`id` = `o`.`address_shipping`)) join `ban_hang`.`shipping_unit` `su` on(`su`.`id` = `o`.`id_shipping`)) join `ban_hang`.`shops` `s` on(`s`.`id` = `o`.`id_shop`))</td>
+            </tr>
+                      <tr>
               <td><strong>sellershop</strong></td>
-              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`sellershop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`c`.`name` AS `name_category`,`c`.`id` AS `id_category`,`s`.`is_activate` AS `is_activate`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date`,`u`.`code` AS `code`,`s`.`short_description` AS `short_description`,`s`.`full_description` AS `full_description` from ((`ban_hang`.`shops` `s` join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
+              <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`sellershop` AS select `s`.`id` AS `id`,`s`.`name` AS `name`,`c`.`name` AS `name_category`,`c`.`id` AS `id_category`,`s`.`is_activate` AS `is_activate`,`s`.`phone_number` AS `phone_number`,`s`.`address` AS `address`,date_format(`s`.`create_date`,'%d/%m/%Y') AS `create_date`,`u`.`code` AS `code`,`s`.`short_description` AS `short_description`,`s`.`full_description` AS `full_description`,`s`.`image` AS `image` from ((`ban_hang`.`shops` `s` join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
             </tr>
                       <tr>
               <td><strong>transactionstatistics</strong></td>

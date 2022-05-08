@@ -135,7 +135,6 @@ exports.updateOrder = (req, res) => {
   });
 };
 exports.getAVoucher = (req, res) => {
-  console.log(req.body.info);
   voucher.getAVoucher(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });

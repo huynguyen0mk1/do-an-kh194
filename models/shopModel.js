@@ -21,7 +21,7 @@ Shop.getAllWithUser = (info, result) => {
 };
 Shop.getAllWithUserAndShop = (info, result) => {
   sql.query(
-    "SELECT `id`, `name`, `name_category`, `id_category`, `is_activate`, `phone_number`, `address`, `create_date`, `code`, `short_description`, `full_description` FROM sellershop WHERE id=? and code = ?",
+    "SELECT `id`, `name`, `name_category`, `id_category`, `is_activate`, `phone_number`, `address`, `create_date`, `code`, `short_description`, `full_description`, image FROM sellershop WHERE id=? and code = ?",
     [info.id, info.code],
     (err, res) => {
       if (err) {
@@ -60,7 +60,7 @@ Shop.updateStatusShop = (info, result) => {
 };
 Shop.updateInfoShop = (info, result) => {
   sql.query(
-    "UPDATE shops SET name=?,phone_number=?,address=?,short_description=?,full_description=? WHERE id=?",
+    "UPDATE shops SET name=?,phone_number=?,address=?,short_description=?,full_description=?, image=? WHERE id=?",
     info,
     (err, res) => {
       if (err) {
@@ -81,7 +81,6 @@ Shop.newShop = (info, result) => {
         { ...info, id_user: data.data.id },
         (err, res) => {
           if (err) {
-            
             result(err, { status: false, Message: err.sqlMessage });
           } else {
             result(null, { status: true });
