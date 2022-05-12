@@ -1,5 +1,6 @@
 "use strict";
 var login = require("../models/loginModel");
+var shop = require("../models/shopModel");
 exports.saveUser = (req, res) => {
   console.log(req.body.user);
   if (req.body.key === "111111111") {
@@ -14,6 +15,33 @@ exports.saveUser = (req, res) => {
           login.saveUser(req.body.user, (err1, resultA) => {
             if (err1) res.json({ data: resultA });
             else res.json({ data: resultA });
+          });
+      }
+    });
+  } else res.json({ data: { status: false, data: [] } });
+};
+exports.saveNewSeller = (req, res) => {
+  console.log(req.body.user);
+  console.log(req.body.shop);
+  if (req.body.key === "111111111") {
+    login.checkUser(req.body.user, (err, result) => {
+      if (err) res.json({ data: result });
+      else {
+        if (result.data.length > 0)
+          res.json({
+            data: { status: false, data: [] },
+          });
+        else
+          login.saveNewSeller(req.body.user, (err1, resultA) => {
+            if (err1) res.json({ data: resultA });
+            else {
+              shop.newAShop(req.body.shop, (err1, resultShop) => {
+                if (err1) res.json({ data: resultShop });
+                else {
+                  res.json({ data: resultA });
+                }
+              });
+            }
           });
       }
     });
@@ -67,11 +95,16 @@ exports.getRole = (req, res) => {
   //console.log(req.body.user);
   if (req.body.key === "111111111") {
     login.getRole(req.body.user, (err, result) => {
-      if (err) res.json({ data: result,Message: err.sqlMessage, note: "User Name is Incorrect" });
+      if (err)
+        res.json({
+          data: result,
+          Message: err.sqlMessage,
+          note: "User Name is Incorrect",
+        });
       else {
         if (result.data.length !== 1)
           res.json({
-            data: { status: false,  data: [] },
+            data: { status: false, data: [] },
             note: "User Name is Incorrect",
           });
         else {

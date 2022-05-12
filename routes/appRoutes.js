@@ -152,6 +152,7 @@ module.exports = function (app) {
   //account
   app.post("/login/taikhoan/:date/:code", login.getUser);
   app.post("/dangkitaikhoan", login.saveUser);
+  app.post("/dangkitaikhoanseller", login.saveNewSeller);
   app.post("/getRole", login.getRole);
 
   //seller

@@ -26,6 +26,46 @@ Login.saveUser = (user, result) => {
     });
   }
 };
+Login.saveNewSeller = (user, result) => {
+  {
+    let code = md5(
+      new Date()
+        .getTime()
+        .toString()
+        .concat("===")
+        .concat(user.id)
+        .concat("===")
+        .concat(user.email)
+        .concat("===")
+        .concat(user.password)
+    );
+    sql.query(
+      "INSERT INTO Users  set ?",
+      {
+        ...user,
+        code: code,
+      },
+      (err, res) => {
+        if (err) {
+          console.log(user);
+          result(err, { status: false, Message: err.sqlMessage });
+        } else {
+          sql.query(
+            "INSERT INTO users_role  set ?",
+            { id_user: user.id, id_role: "role-003" },
+            (err, res) => {
+              if (err) {
+                result(err, { status: false, Message: err.sqlMessage });
+              } else {
+                result(null, { status: true, code: code });
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+};
 Login.getUser = (user, result) => {
   {
     sql.query(
@@ -61,8 +101,8 @@ Login.getRole = (user, result) => {
 Login.checkUser = (user, result) => {
   {
     sql.query(
-      "SELECT DISTINCT  id, email, password  FROM `Users` u WHERE u.email = ? and u.password = ?",
-      [user.email, user.password],
+      "SELECT DISTINCT  id, email, password  FROM `Users` u WHERE u.email = ? ",
+      [user.email],
       (err, res) => {
         if (err) {
           console.log("error: ", err);
@@ -70,7 +110,7 @@ Login.checkUser = (user, result) => {
         } else {
           if (res.length == 1)
             sql.query(
-              "UPDATE `users` SET `code`= ? WHERE email = ? and password = ?",
+              "UPDATE `users` SET `code`= ? WHERE email = ? ",
               [
                 md5(
                   new Date()
@@ -84,7 +124,6 @@ Login.checkUser = (user, result) => {
                     .concat(user.password)
                 ),
                 user.email,
-                user.password,
               ],
               (err, res) => {}
             );

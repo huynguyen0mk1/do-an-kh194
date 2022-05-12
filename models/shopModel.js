@@ -90,4 +90,13 @@ Shop.newShop = (info, result) => {
     }
   });
 };
+Shop.newAShop = (info, result) => {
+  sql.query("INSERT INTO shops set ?", info, (err, res) => {
+    if (err) {
+      result(err, { status: false, Message: err.sqlMessage });
+    } else {
+      result(null, { status: true });
+    }
+  });
+};
 module.exports = Shop;
