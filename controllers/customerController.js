@@ -45,9 +45,25 @@ exports.changAmount = (req, res) => {
 exports.getAllProductCategory = (req, res) => {
   product.getAllProductCategory(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
+    else {
+      category.getACategory(
+        { id: req.body.info.code },
+        (err, resultCategory) => {
+          if (err) res.json({ data: resultCategory });
+          else res.json({ dataCategory: resultCategory, data: result });
+        }
+      );
+    }
+  });
+};
+
+exports.getResultSearch = (req, res) => {
+  product.getResultSearch(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
     else res.json({ data: result });
   });
 };
+
 exports.getAllCategoryHot = (req, res) => {
   category.getAllCategoryHot((err, result) => {
     if (err) res.json({ data: result });

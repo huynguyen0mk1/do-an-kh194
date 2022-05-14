@@ -197,7 +197,7 @@ module.exports = function (app) {
   // customer
   app.post("/customer/changeCart", customer.changeCart);
   app.post("/customer/getAllProductCategory", customer.getAllProductCategory);
-
+  app.post("/customer/getResultSearch", customer.getResultSearch);
   app.post("/customer/getAllProductCustomer", customer.getAllProductCustomer);
   app.post("/customer/getAProduct", customer.getAProduct);
   app.post("/customer/getAllCart", customer.getAllCart);
