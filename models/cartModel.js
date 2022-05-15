@@ -51,7 +51,7 @@ Cart.deleteACart = (info, result) => {
 };
 Cart.getAllCart = (info, result) => {
   sql.query(
-    "SELECT  DISTINCT  `id`, `amount`, `id_user`, `code`, `id_product`, `name_product`, `price`, `main_image` FROM `allcart` WHERE code = ?",
+    "SELECT  DISTINCT  `id`, `amount`, `id_user`, `code`, `id_product`, `name_product`, `price`,total_amount, `main_image` FROM `allcart` WHERE code = ?",
     [info.code],
     (err, res) => {
       if (err) {
@@ -64,7 +64,7 @@ Cart.getAllCart = (info, result) => {
 };
 Cart.getAllCartUser = (info, result) => {
   sql.query(
-    "SELECT `id`, `amount`, `id_user`, `CODE`, `id_product`, `name_product`, `price`, `main_image`, `id_shop`, `name_shop`, `id_unit_ship`, `name_unit_ship`, price_unit_ship, percent, max_value FROM `allcart` WHERE code = ?",
+    "SELECT `id`, `amount`, `id_user`, `CODE`, `id_product`, `name_product`, `price`,total_amount, `main_image`, `id_shop`, `name_shop`, `id_unit_ship`, `name_unit_ship`, price_unit_ship, percent, max_value FROM `allcart` WHERE code = ?",
     [info.code],
     (err, res) => {
       if (err) {
@@ -85,8 +85,8 @@ Cart.getAllCartUser = (info, result) => {
                 price_ship: 0,
                 id_ship: "",
                 id_order: id_order.concat("_" + i),
-                percent:res[item].percent,
-                max_value:res[item].max_value,
+                percent: res[item].percent,
+                max_value: res[item].max_value,
               });
               i++;
             } else {
@@ -103,8 +103,8 @@ Cart.getAllCartUser = (info, result) => {
                   price_ship: 0,
                   id_ship: "",
                   id_order: id_order.concat("_" + i),
-                  percent:res[item].percent,
-                  max_value:res[item].max_value,
+                  percent: res[item].percent,
+                  max_value: res[item].max_value,
                 });
                 i++;
               }
@@ -117,8 +117,11 @@ Cart.getAllCartUser = (info, result) => {
                 price: res[item].price,
                 main_image: res[item].main_image,
                 amount: res[item].amount,
+                total_amount: res[item].total_amount,
               });
-              data[n].total = res[item].price * res[item].amount;
+              if (res[item].amount <= res[item].total_amount)
+                data[n].total += res[item].price * res[item].amount;
+              else data[n].total += res[item].price * res[item].total_amount;
             } else {
               let numcheck = data[n].list_product.filter(
                 (item1) => res[item].id_product === item1.id_product
@@ -130,8 +133,11 @@ Cart.getAllCartUser = (info, result) => {
                   price: res[item].price,
                   main_image: res[item].main_image,
                   amount: res[item].amount,
+                  total_amount: res[item].total_amount,
                 });
-                data[n].total += res[item].price * res[item].amount;
+                if (res[item].amount <= res[item].total_amount)
+                  data[n].total += res[item].price * res[item].amount;
+                else data[n].total += res[item].price * res[item].total_amount;
               }
             }
             if (data[n].list_unit.length === 0) {
@@ -200,7 +206,7 @@ Cart.changeCart = (info, result) => {
             "INSERT INTO `cart` set ?",
             {
               id: md5(new Date().getTime().toString()),
-              amount: 1,
+              amount: info.amount,
               id_user: info.user_id,
               id_product: info.product_id,
             },
@@ -214,7 +220,7 @@ Cart.changeCart = (info, result) => {
           );
         } else {
           sql.query(
-            "UPDATE cart SET amount = amount+1 WHERE id=?",
+            `UPDATE cart SET amount =  amount+${info.amount} WHERE id=?`,
             [res[0].id],
             (err1, res1) => {
               if (err1) {

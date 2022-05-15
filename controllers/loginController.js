@@ -99,18 +99,18 @@ exports.getRole = (req, res) => {
         res.json({
           data: result,
           Message: err.sqlMessage,
-          note: "User Name is Incorrect",
+          note: "User is Incorrect",
         });
       else {
         if (result.data.length !== 1)
           res.json({
             data: { status: false, data: [] },
-            note: "User Name is Incorrect",
+            note: "User is Incorrect",
           });
         else {
           res.json({
             data: { status: true, data: result.data[0] },
-            note: "Password is Incorrect",
+            note: "User is correct",
           });
         }
       }
