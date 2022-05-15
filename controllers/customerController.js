@@ -5,6 +5,7 @@ let orderDetail = require("../models/OrderDetailModel");
 let order = require("../models/orderModel");
 let address = require("../models/addressModel");
 let category = require("../models/categoryModel");
+let voucher = require("../models/voucherModel");
 exports.changeCart = (req, res) => {
   cart.changeCart(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -96,6 +97,13 @@ exports.createPayment = (req, res) => {
         req.body.list_order_detail,
         (err, resultNewOrderDetail) => {
           if (resultNewOrderDetail.status === true) {
+            voucher.update_use_voucher(
+              req.body.use_voucher,
+              (err, result_use_voucher) => {
+                if (err) res.json({ data: result_use_voucher });
+              }
+            );
+
             if (req.body.payment_method === "bacs") {
               let ipAddr =
                 req.headers["x-forwarded-for"] ||
@@ -199,11 +207,13 @@ exports.createPayment = (req, res) => {
         }
       );
     } else {
-      res.json({
-        status: true,
-        data: "No Links",
-        payment_method: "cod",
-      });
+      {
+        res.json({
+          status: true,
+          data: "No Links",
+          payment_method: "cod",
+        });
+      }
     }
   });
 };
@@ -275,4 +285,34 @@ exports.paymentReturn = (req, res) => {
     );
     res.json({ status: false });
   }
+};
+exports.getAVoucherWithCodeInListId = (req, res) => {
+  voucher.getAVoucherWithCodeInListId(
+    req.body.info,
+    req.body.listID,
+    (err, result) => {
+      if (err) res.json({ data: result });
+      else {
+        console.log(result.data);
+        res.json({ data: result });
+      }
+    }
+  );
+};
+exports.newUseVoucher = (req, res) => {
+  voucher.newUseVoucher(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else {
+      res.json({ data: result });
+    }
+  });
+};
+exports.getUseVoucher = (req, res) => {
+  console.log(req.body.info);
+  voucher.getUseVoucher(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else {
+      res.json({ data: result });
+    }
+  });
 };

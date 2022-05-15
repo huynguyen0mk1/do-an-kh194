@@ -51,26 +51,174 @@ Cart.deleteACart = (info, result) => {
 };
 Cart.getAllCart = (info, result) => {
   sql.query(
-    "SELECT  DISTINCT  `id`, `amount`, `id_user`, `code`, `id_product`, `name_product`, `price`,total_amount, `main_image` FROM `allcart` WHERE code = ?",
-    [info.code],
-    (err, res) => {
-      if (err) {
-        result(err, { status: false, Message: err.sqlMessage, data: [] });
-      } else {
-        result(null, { status: true, data: res });
-      }
-    }
-  );
-};
-Cart.getAllCartUser = (info, result) => {
-  sql.query(
-    "SELECT `id`, `amount`, `id_user`, `CODE`, `id_product`, `name_product`, `price`,total_amount, `main_image`, `id_shop`, `name_shop`, `id_unit_ship`, `name_unit_ship`, price_unit_ship, percent, max_value FROM `allcart` WHERE code = ?",
+    "SELECT `id`, `amount`, `id_user`, `CODE`, `id_product`, `name_product`, `price`,`sale`, `max_sale`,total_amount, `main_image`, `id_shop`, `name_shop`, `id_unit_ship`, `name_unit_ship`, price_unit_ship, percent, max_value FROM `allcart` WHERE code = ?",
     [info.code],
     (err, res) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         let data = [];
+
+        let listID = [];
+
+        for (let i in res) {
+          listID.push("'".concat(res[i].id_product).concat("'"));
+          listID.push("'".concat(res[i].id_shop).concat("'"));
+        }
+        let i = 0;
+        let id_order = md5(new Date().getTime().toString().concat(info.code));
+        if (res.length > 0) {
+          for (let item in res) {
+            if (data.length === 0) {
+              data.push({
+                id_shop: res[item].id_shop,
+                name_shop: res[item].name_shop,
+                list_product: [],
+                list_unit: [],
+                total: 0,
+                price_ship: 0,
+                id_ship: "",
+                id_order: id_order.concat("_" + i),
+                percent: res[item].percent,
+                max_value: res[item].max_value,
+              });
+              i++;
+            } else {
+              let numcheck = data.filter(
+                (item1) => res[item].id_shop === item1.id_shop
+              ).length;
+              if (numcheck === 0) {
+                data.push({
+                  id_shop: res[item].id_shop,
+                  name_shop: res[item].name_shop,
+                  list_product: [],
+                  list_unit: [],
+                  total: 0,
+                  price_ship: 0,
+                  id_ship: "",
+                  id_order: id_order.concat("_" + i),
+                  percent: res[item].percent,
+                  max_value: res[item].max_value,
+                });
+                i++;
+              }
+            }
+            let n = data.length - 1;
+            if (data[n].list_product.length === 0) {
+              data[n].list_product.push({
+                id: res[item].id,
+                id_product: res[item].id_product,
+                name_product: res[item].name_product,
+                price:
+                  (res[item].price * res[item].sale) / 100 > res[item].max_sale
+                    ? res[item].price - res[item].max_sale
+                    : (res[item].price * (100 - res[item].sale)) / 100,
+                main_image: res[item].main_image,
+                amount: res[item].amount,
+                total_amount: res[item].total_amount,
+              });
+              if (res[item].amount <= res[item].total_amount)
+                data[n].total +=
+                  ((res[item].price * res[item].sale) / 100 > res[item].max_sale
+                    ? res[item].price - res[item].max_sale
+                    : (res[item].price * (100 - res[item].sale)) / 100) *
+                  res[item].amount;
+              else
+                data[n].total +=
+                  ((res[item].price * res[item].sale) / 100 > res[item].max_sale
+                    ? res[item].price - res[item].max_sale
+                    : (res[item].price * (100 - res[item].sale)) / 100) *
+                  res[item].total_amount;
+            } else {
+              let numcheck = data[n].list_product.filter(
+                (item1) => res[item].id_product === item1.id_product
+              ).length;
+              if (numcheck === 0) {
+                data[n].list_product.push({
+                  id: res[item].id,
+                  id_product: res[item].id_product,
+                  name_product: res[item].name_product,
+                  price:
+                    (res[item].price * res[item].sale) / 100 >
+                    res[item].max_sale
+                      ? res[item].price - res[item].max_sale
+                      : (res[item].price * (100 - res[item].sale)) / 100,
+                  main_image: res[item].main_image,
+                  amount: res[item].amount,
+                  total_amount: res[item].total_amount,
+                });
+                if (res[item].amount <= res[item].total_amount)
+                  data[n].total +=
+                    ((res[item].price * res[item].sale) / 100 >
+                    res[item].max_sale
+                      ? res[item].price - res[item].max_sale
+                      : (res[item].price * (100 - res[item].sale)) / 100) *
+                    res[item].amount;
+                else
+                  data[n].total +=
+                    ((res[item].price * res[item].sale) / 100 >
+                    res[item].max_sale
+                      ? res[item].price - res[item].max_sale
+                      : (res[item].price * (100 - res[item].sale)) / 100) *
+                    res[item].total_amount;
+              }
+            }
+            if (data[n].list_unit.length === 0) {
+              data[n].list_unit.push({
+                id_unit_ship: res[item].id_unit_ship,
+                name_unit_ship: res[item].name_unit_ship,
+                price_unit_ship: res[item].price_unit_ship,
+              });
+              data[n].price_ship = res[item].price_unit_ship;
+              data[n].id_ship = res[item].id_unit_ship;
+            } else {
+              let numcheck = data[n].list_unit.filter(
+                (item1) => res[item].id_unit_ship === item1.id_unit_ship
+              ).length;
+              if (numcheck === 0) {
+                data[n].list_unit.push({
+                  id_unit_ship: res[item].id_unit_ship,
+                  name_unit_ship: res[item].name_unit_ship,
+                  price_unit_ship: res[item].price_unit_ship,
+                });
+              }
+            }
+          }
+          result(null, {
+            status: true,
+            data: data,
+            id_order: id_order,
+            id_user: res[0].id_user,
+            listID: listID.join(","),
+          });
+        } else
+          result(null, {
+            status: true,
+            data: [],
+            id_order: "",
+            id_user: "",
+            listID: "",
+          });
+      }
+    }
+  );
+};
+Cart.getAllCartUser = (info, result) => {
+  sql.query(
+    "SELECT `id`, `amount`, `id_user`, `CODE`, `id_product`, `name_product`, `price`,`sale`, `max_sale`,total_amount, `main_image`, `id_shop`, `name_shop`, `id_unit_ship`, `name_unit_ship`, price_unit_ship, percent, max_value FROM `allcart` WHERE code = ?",
+    [info.code],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        let data = [];
+
+        let listID = [];
+
+        for (let i in res) {
+          listID.push("'".concat(res[i].id_product).concat("'"));
+          listID.push("'".concat(res[i].id_shop).concat("'"));
+        }
         let i = 0;
         let id_order = md5(new Date().getTime().toString().concat(info.code));
         if (res.length > 0) {
@@ -114,14 +262,26 @@ Cart.getAllCartUser = (info, result) => {
               data[n].list_product.push({
                 id_product: res[item].id_product,
                 name_product: res[item].name_product,
-                price: res[item].price,
+                price:
+                  (res[item].price * res[item].sale) / 100 > res[item].max_sale
+                    ? res[item].price - res[item].max_sale
+                    : (res[item].price * (100 - res[item].sale)) / 100,
                 main_image: res[item].main_image,
                 amount: res[item].amount,
                 total_amount: res[item].total_amount,
               });
               if (res[item].amount <= res[item].total_amount)
-                data[n].total += res[item].price * res[item].amount;
-              else data[n].total += res[item].price * res[item].total_amount;
+                data[n].total +=
+                  ((res[item].price * res[item].sale) / 100 > res[item].max_sale
+                    ? res[item].price - res[item].max_sale
+                    : (res[item].price * (100 - res[item].sale)) / 100) *
+                  res[item].amount;
+              else
+                data[n].total +=
+                  ((res[item].price * res[item].sale) / 100 > res[item].max_sale
+                    ? res[item].price - res[item].max_sale
+                    : (res[item].price * (100 - res[item].sale)) / 100) *
+                  res[item].total_amount;
             } else {
               let numcheck = data[n].list_product.filter(
                 (item1) => res[item].id_product === item1.id_product
@@ -130,14 +290,29 @@ Cart.getAllCartUser = (info, result) => {
                 data[n].list_product.push({
                   id_product: res[item].id_product,
                   name_product: res[item].name_product,
-                  price: res[item].price,
+                  price:
+                    (res[item].price * res[item].sale) / 100 >
+                    res[item].max_sale
+                      ? res[item].price - res[item].max_sale
+                      : (res[item].price * (100 - res[item].sale)) / 100,
                   main_image: res[item].main_image,
                   amount: res[item].amount,
                   total_amount: res[item].total_amount,
                 });
                 if (res[item].amount <= res[item].total_amount)
-                  data[n].total += res[item].price * res[item].amount;
-                else data[n].total += res[item].price * res[item].total_amount;
+                  data[n].total +=
+                    ((res[item].price * res[item].sale) / 100 >
+                    res[item].max_sale
+                      ? res[item].price - res[item].max_sale
+                      : (res[item].price * (100 - res[item].sale)) / 100) *
+                    res[item].amount;
+                else
+                  data[n].total +=
+                    ((res[item].price * res[item].sale) / 100 >
+                    res[item].max_sale
+                      ? res[item].price - res[item].max_sale
+                      : (res[item].price * (100 - res[item].sale)) / 100) *
+                    res[item].total_amount;
               }
             }
             if (data[n].list_unit.length === 0) {
@@ -166,6 +341,7 @@ Cart.getAllCartUser = (info, result) => {
             data: data,
             id_order: id_order,
             id_user: res[0].id_user,
+            listID: listID.join(","),
           });
         } else
           result(null, {
@@ -173,6 +349,7 @@ Cart.getAllCartUser = (info, result) => {
             data: [],
             id_order: "",
             id_user: "",
+            listID: "",
           });
       }
     }

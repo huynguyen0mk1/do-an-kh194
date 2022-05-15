@@ -24,6 +24,54 @@ Voucher.getAVoucher = (info, result) => {
     }
   );
 };
+Voucher.getAVoucherWithCode = (info, result) => {
+  sql.query(
+    "SELECT DISTINCT `id`, `id_apply`, `name`, `code_voucher`, `description`, `date_start`, `date_end`, `percent`, `max_value`, `image`, `create_date` FROM `voucher` WHERE code_voucher=? and NOW() between date_start and date_end",
+    [info.code_voucher],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, {
+          status: true,
+          data:
+            res.length > 0
+              ? {
+                  ...res[0],
+                  date_end: new Date(res[0].date_end)
+                    .toISOString()
+                    .slice(0, 16),
+                }
+              : undefined,
+        });
+      }
+    }
+  );
+};
+Voucher.getAVoucherWithCodeInListId = (info, listID, result) => {
+  sql.query(
+    `SELECT DISTINCT id, id_apply, name, code_voucher, description, date_start, date_end, percent, max_value, image, create_date FROM voucher WHERE code_voucher=? and id_apply in (${listID}) and NOW() between date_start and date_end`,
+    [info.code_voucher],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, {
+          status: res.length > 0 ? true : false,
+          data:
+            res.length > 0
+              ? {
+                  ...res[0],
+                  date_end: new Date(res[0].date_end)
+                    .toISOString()
+                    .slice(0, 16),
+                }
+              : undefined,
+        });
+      }
+    }
+  );
+};
 Voucher.getProductVoucher = (info, result) => {
   sql.query(
     "SELECT DISTINCT `id`, `id_apply`, `name`, `code_voucher`, `description`, date_format(date_start,'%d/%m/%Y %T') AS date_start,  date_format(date_end,'%d/%m/%Y %T') AS date_end, `percent`, `max_value`, `image`, `create_date` FROM `voucher` WHERE id_apply=?",
@@ -37,8 +85,41 @@ Voucher.getProductVoucher = (info, result) => {
     }
   );
 };
+Voucher.getUseVoucher = (info, result) => {
+  sql.query(
+    "SELECT `id`, `id_vouncher`, `id_apply`, `precent`, `max_value`, `date_use`, `price`, `id_order`, `table_name` FROM `use_voucher` WHERE `id`=?",
+    [info.code],
+    (err, res) => {
+      if (err) {
+        result(err, {
+          status: false,
+          Message: err.sqlMessage,
+          data: undefined,
+        });
+      } else {
+        result(null, { status: true, data: res[0] });
+      }
+    }
+  );
+};
 Voucher.newVoucher = (info, result) => {
-  sql.query("INSERT INTO `voucher` set ?", info, (err, res) => {
+  Voucher.getAVoucherWithCode(info, (errVoucher, resultVoucher) => {
+    if (errVoucher) result(resultVoucher);
+    else {
+      if (resultVoucher === undefined) {
+        sql.query("INSERT INTO `voucher` set ?", info, (err, res) => {
+          if (err) {
+            result(err, { status: false, Message: err.sqlMessage });
+          } else {
+            result(null, { status: true });
+          }
+        });
+      }
+    }
+  });
+};
+Voucher.newUseVoucher = (info, result) => {
+  sql.query("INSERT INTO `use_voucher` set ?", info, (err, res) => {
     if (err) {
       result(err, { status: false, Message: err.sqlMessage });
     } else {
@@ -74,6 +155,20 @@ Voucher.deleteVoucher = (info, result) => {
   sql.query(
     "DELETE FROM `voucher` WHERE id=? and id_apply =?",
     [info.id, info.id_apply],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage });
+      } else {
+        result(null, { status: true });
+      }
+    }
+  );
+};
+Voucher.update_use_voucher = (info, result) => {
+  console.log(info);
+  sql.query(
+    "UPDATE use_voucher SET id_order=? WHERE id=?",
+    [info.id_order, info.code],
     (err, res) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage });

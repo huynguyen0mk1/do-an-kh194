@@ -206,9 +206,10 @@ module.exports = function (app) {
   app.post("/customer/deleteACart", customer.deleteACart);
   app.post("/customer/createPayment", customer.createPayment);
   app.post("/customer/paymentReturn", customer.paymentReturn);
-
+  app.post("/customer/getAVoucherWithCodeInListId", customer.getAVoucherWithCodeInListId);
   app.post("/customer/getAllCategoryHot", customer.getAllCategoryHot);
-
+  app.post("/customer/newUseVoucher", customer.newUseVoucher);
+  app.post("/customer/getUseVoucher", customer.getUseVoucher);
   app.get("/getAllUser", login.getAllUser);
   app.get("/getAudio/:num", (req, res) => {
     let fileName = req.params.num;
