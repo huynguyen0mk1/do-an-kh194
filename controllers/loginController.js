@@ -9,7 +9,7 @@ exports.saveUser = (req, res) => {
       else {
         if (result.data.length > 0)
           res.json({
-            data: { status: false, Message: err.sqlMessage, data: [] },
+            data: { status: false, data: [] },
           });
         else
           login.saveUser(req.body.user, (err1, resultA) => {
@@ -57,7 +57,7 @@ exports.getAllUser = (req, res) => {
 };
 exports.getUser = (req, res) => {
   if (req.body.key === "111111111") {
-    // console.log(req.body.user);
+    console.log(req.body.user);
     login.checkUser(req.body.user, (err, result) => {
       if (err) res.json({ data: result, note: "User Name is Incorrect" });
       else {
@@ -67,12 +67,12 @@ exports.getUser = (req, res) => {
             note: "User Name is Incorrect",
           });
         else {
-          //console.log(req.body.user);
+          console.log(result);
           login.getUser(req.body.user, (err, resultA) => {
             if (err)
               res.json({
                 status: false,
-                Message: err.sqlMessage,
+
                 data: resultA,
                 note: "Password is Incorrect",
               });
@@ -98,7 +98,7 @@ exports.getRole = (req, res) => {
       if (err)
         res.json({
           data: result,
-          Message: err.sqlMessage,
+
           note: "User is Incorrect",
         });
       else {

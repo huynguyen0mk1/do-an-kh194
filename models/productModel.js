@@ -19,7 +19,7 @@ Product.getAllProductInShop = (info, result) => {
 };
 Product.getAllProduct = (info, result) => {
   sql.query(
-    "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`",
+    "SELECT `id`, `name`, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `all_product_with_role_admin`",
     (err, res) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage, data: [] });

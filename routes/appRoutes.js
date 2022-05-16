@@ -201,12 +201,16 @@ module.exports = function (app) {
   app.post("/customer/getAllProductCustomer", customer.getAllProductCustomer);
   app.post("/customer/getAProduct", customer.getAProduct);
   app.post("/customer/getAllCart", customer.getAllCart);
+  app.post("/customer/getAllCartCust", customer.getAllCartCust);
   app.post("/customer/getAllCartUser", customer.getAllCartUser);
   app.post("/customer/changAmount", customer.changAmount);
   app.post("/customer/deleteACart", customer.deleteACart);
   app.post("/customer/createPayment", customer.createPayment);
   app.post("/customer/paymentReturn", customer.paymentReturn);
-  app.post("/customer/getAVoucherWithCodeInListId", customer.getAVoucherWithCodeInListId);
+  app.post(
+    "/customer/getAVoucherWithCodeInListId",
+    customer.getAVoucherWithCodeInListId
+  );
   app.post("/customer/getAllCategoryHot", customer.getAllCategoryHot);
   app.post("/customer/newUseVoucher", customer.newUseVoucher);
   app.post("/customer/getUseVoucher", customer.getUseVoucher);

@@ -30,6 +30,12 @@ exports.getAllCart = (req, res) => {
     else res.json({ data: result });
   });
 };
+exports.getAllCartCust = (req, res) => {
+  cart.getAllCartCust(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
 exports.getAllCartUser = (req, res) => {
   cart.getAllCartUser(req.body.info, (err, result) => {
     if (err) res.json({ data: result });

@@ -19,6 +19,16 @@ OrderDetail.newOrderDetail = (info, result) => {
         result(err, { status: false, Message: err.sqlMessage });
       }
     });
+    sql.query(
+      "UPDATE `products` SET `total`= total-? WHERE `id`=?",
+      [data[i].amount, data[i].id_product],
+      (err, res) => {
+        if (err) {
+          console.log(err.sqlMessage);
+          result(err, { status: false, Message: err.sqlMessage });
+        }
+      }
+    );
   }
   result(null, { status: true });
 };

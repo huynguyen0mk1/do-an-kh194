@@ -69,7 +69,7 @@ Login.saveNewSeller = (user, result) => {
 Login.getUser = (user, result) => {
   {
     sql.query(
-      "SELECT DISTINCT u.`id`, u.`email`, u.`first_name`, u.`last_name`, u.`password`, u.`avatar`, r.name as 'role', u.code FROM `users`u INNER JOIN users_role ur ON ur.id_user = u.id INNER JOIN roles r on r.id = ur.id_role WHERE u.email = ? and u.password = ?",
+      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code` FROM `info_user` WHERE email = ? and password = ?",
       [user.email, user.password],
       (err, res) => {
         if (err) {
@@ -85,7 +85,7 @@ Login.getUser = (user, result) => {
 Login.getRole = (user, result) => {
   {
     sql.query(
-      "SELECT DISTINCT u.`id`, u.`email`, u.`first_name`, u.`last_name`, u.`password`, u.`avatar`, r.name as 'role', u.code FROM `users`u INNER JOIN users_role ur ON ur.id_user = u.id INNER JOIN roles r on r.id = ur.id_role WHERE u.code = ?",
+      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code` FROM `info_user` WHERE code = ?",
       [user.code],
       (err, res) => {
         if (err) {
