@@ -209,7 +209,7 @@
  &nbsp;`avatar` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
  &nbsp;`birthday` date NOT NULL,<br>
  &nbsp;`number_phone` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
- &nbsp;`sex` int(11) DEFAULT NULL,<br>
+ &nbsp;`gender` text COLLATE utf8_vietnamese_ci DEFAULT NULL,<br>
  &nbsp;`code` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
  &nbsp;PRIMARY KEY (`id`)<br>
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
@@ -305,7 +305,7 @@
             </tr>
                       <tr>
               <td><strong>info_user</strong></td>
-              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`info_user` AS select distinct `u`.`id` AS `id`,`u`.`email` AS `email`,`u`.`first_name` AS `first_name`,`u`.`last_name` AS `last_name`,`u`.`birthday` AS `birthday`,`u`.`number_phone` AS `number_phone`,trim(concat(`u`.`first_name`,' ',`u`.`last_name`)) AS `full_name`,`u`.`password` AS `password`,if(`u`.`avatar` = NULL or `u`.`avatar` = '','user.png',`u`.`avatar`) AS `avatar`,`r`.`name` AS `role`,`u`.`code` AS `code` from ((`ban_hang`.`users` `u` join `ban_hang`.`users_role` `ur` on(`ur`.`id_user` = `u`.`id`)) join `ban_hang`.`roles` `r` on(`r`.`id` = `ur`.`id_role`))</td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`info_user` AS select distinct `u`.`id` AS `id`,`u`.`email` AS `email`,`u`.`first_name` AS `first_name`,`u`.`last_name` AS `last_name`,date_format(`u`.`birthday`,'%Y-%m-%dT07:41:18.475Z') AS `birthday`,`u`.`number_phone` AS `number_phone`,trim(concat(`u`.`first_name`,' ',`u`.`last_name`)) AS `full_name`,`u`.`password` AS `password`,if(`u`.`avatar` = NULL or `u`.`avatar` = '','user.png',`u`.`avatar`) AS `avatar`,`r`.`name` AS `role`,`u`.`code` AS `code`,`u`.`gender` AS `gender` from ((`ban_hang`.`users` `u` join `ban_hang`.`users_role` `ur` on(`ur`.`id_user` = `u`.`id`)) join `ban_hang`.`roles` `r` on(`r`.`id` = `ur`.`id_role`))</td>
             </tr>
                       <tr>
               <td><strong>sellershop</strong></td>

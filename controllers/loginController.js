@@ -121,3 +121,46 @@ exports.getRole = (req, res) => {
       note: "User Name is Incorrect",
     });
 };
+exports.updateInfoUser = (req, res) => {
+  if (req.body.key === "111111111") {
+    login.updateInfoUser(req.body.user, (err, result) => {
+      if (err) res.json({ data: result });
+      else res.json({ data: result });
+    });
+  } else res.json({ data: { status: false } });
+};
+exports.updateNumberPhoneUser = (req, res) => {
+  if (req.body.key === "111111111") {
+    login.updateNumberPhoneUser(req.body.user, (err, result) => {
+      if (err) res.json({ data: result });
+      else res.json({ data: result });
+    });
+  } else res.json({ data: { status: false } });
+};
+exports.updateEmailUser = (req, res) => {
+  if (req.body.key === "111111111") {
+    login.checkUser(req.body.user, (err, result) => {
+      if (err) res.json({ data: result });
+      else {
+        if (result.data.length === 0)
+          login.updateEmailUser(req.body.user, (err, resultEmailUser) => {
+            if (err) res.json({ data: resultEmailUser });
+            else res.json({ data: resultEmailUser });
+          });
+        else {
+          res.json({
+            data: { status: false },
+          });
+        }
+      }
+    });
+  } else res.json({ data: { status: false } });
+};
+exports.updatePasswordUser = (req, res) => {
+  if (req.body.key === "111111111") {
+    login.updatePasswordUser(req.body.user, (err, result) => {
+      if (err) res.json({ data: result });
+      else res.json({ data: result });
+    });
+  } else res.json({ data: { status: false } });
+};

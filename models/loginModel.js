@@ -69,7 +69,7 @@ Login.saveNewSeller = (user, result) => {
 Login.getUser = (user, result) => {
   {
     sql.query(
-      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code` FROM `info_user` WHERE email = ? and password = ?",
+      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code`,gender FROM `info_user` WHERE email = ? and password = ?",
       [user.email, user.password],
       (err, res) => {
         if (err) {
@@ -85,7 +85,7 @@ Login.getUser = (user, result) => {
 Login.getRole = (user, result) => {
   {
     sql.query(
-      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code` FROM `info_user` WHERE code = ?",
+      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code`,gender FROM `info_user` WHERE code = ?",
       [user.code],
       (err, res) => {
         if (err) {
@@ -165,4 +165,75 @@ Login.getIdUser = (code, data) => {
     );
   }
 };
+
+Login.updateInfoUser = (user, result) => {
+  {
+    sql.query(
+      "UPDATE users SET first_name=?,last_name=? ,avatar=?,birthday=? ,gender=? WHERE id=?",
+      [
+        user.first_name,
+        user.last_name,
+        user.avatar,
+        user.birthday,
+        user.gender,
+        user.id,
+      ],
+      (err, res) => {
+        if (err) {
+          result(err, { status: false, Message: err.sqlMessage });
+        } else {
+          result(null, { status: true });
+        }
+      }
+    );
+  }
+};
+
+Login.updateNumberPhoneUser = (user, result) => {
+  {
+    sql.query(
+      "UPDATE users SET number_phone=? WHERE id=?",
+      [user.number_phone, user.id],
+      (err, res) => {
+        if (err) {
+          result(err, { status: false, Message: err.sqlMessage });
+        } else {
+          result(null, { status: true });
+        }
+      }
+    );
+  }
+};
+Login.updateEmailUser = (user, result) => {
+  {
+    sql.query(
+      "UPDATE users SET email=? WHERE id=?",
+      [user.email, user.id],
+      (err, res) => {
+        if (err) {
+          result(err, { status: false, Message: err.sqlMessage });
+        } else {
+          result(null, { status: true });
+        }
+      }
+    );
+  }
+};
+Login.updatePasswordUser = (user, result) => {
+  {
+    console.log(user);
+    sql.query(
+      "UPDATE users SET password=? WHERE id=?",
+      [user.password, user.id],
+      (err, res) => {
+        if (err) {
+          result(err, { status: false, Message: err.sqlMessage });
+        } else {
+          result(null, { status: true });
+        }
+      }
+    );
+  }
+};
+
 module.exports = Login;

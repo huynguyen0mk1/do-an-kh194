@@ -6,144 +6,7 @@ module.exports = function (app) {
   var public = require("../controllers/publicController");
   var admin = require("../controllers/adminController");
   var customer = require("../controllers/customerController");
-  app.get("/", (req, res) =>
-    res.json([
-      {
-        navItem: "History",
-        icon: "",
-        to: "/history-crawl-web",
-        children: [
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-        ],
-      },
-      {
-        navItem: "Users",
-        icon: "",
-        to: "/ManagerUser",
-        children: [
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-          {
-            navItem: "History",
-            icon: "",
-            to: "/history-crawl-web",
-            children: [],
-          },
-          {
-            navItem: "Users",
-            icon: "",
-            to: "/ManagerUser",
-            children: [],
-          },
-        ],
-      },
-    ])
-  );
+
   //public
   app.get("/getAllParentCategory", public.getAllParentCategory);
   app.get("/getAllCategory", public.getAllCategory);
@@ -152,6 +15,11 @@ module.exports = function (app) {
   //account
   app.post("/login/taikhoan/:date/:code", login.getUser);
   app.post("/dangkitaikhoan", login.saveUser);
+  app.post("/cap_nhat_tai_khoan", login.updateInfoUser);
+  app.post("/cap_nhat_tai_khoan/so_dien_thoai", login.updateNumberPhoneUser);
+  app.post("/cap_nhat_tai_khoan/email", login.updateEmailUser);
+  app.post("/cap_nhat_tai_khoan/password", login.updatePasswordUser);
+
   app.post("/dangkitaikhoanseller", login.saveNewSeller);
   app.post("/getRole", login.getRole);
 
