@@ -212,11 +212,18 @@ Cart.getAllCartCust = (info, result) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
-        result(null, {
-          status: true,
-          data: res,
-          id_user: res[0].id_user,
-        });
+        if (res.length > 0)
+          result(null, {
+            status: true,
+            data: res,
+            id_user: res[0].id_user,
+          });
+        else
+          result(null, {
+            status: true,
+            data: res,
+            id_user: "",
+          });
       }
     }
   );

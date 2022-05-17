@@ -97,7 +97,8 @@ Voucher.getUseVoucher = (info, result) => {
           data: undefined,
         });
       } else {
-        result(null, { status: true, data: res[0] });
+        if (res.length === 0) result(null, { status: false });
+        else result(null, { status: true, data: res[0] });
       }
     }
   );
@@ -106,7 +107,8 @@ Voucher.newVoucher = (info, result) => {
   Voucher.getAVoucherWithCode(info, (errVoucher, resultVoucher) => {
     if (errVoucher) result(resultVoucher);
     else {
-      if (resultVoucher === undefined) {
+      console.log(resultVoucher);
+      if (resultVoucher.data === undefined) {
         sql.query("INSERT INTO `voucher` set ?", info, (err, res) => {
           if (err) {
             result(err, { status: false, Message: err.sqlMessage });

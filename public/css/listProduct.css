@@ -213,3 +213,6 @@ svg:not(:root) {
   font-weight: 300;
   white-space: nowrap;
 }
+.text-danger {
+  color: #dc3545!important;
+}

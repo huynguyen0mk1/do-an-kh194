@@ -37,7 +37,7 @@ exports.getAllCartCust = (req, res) => {
   });
 };
 exports.getAllCartUser = (req, res) => {
-  cart.getAllCartUser(req.body.info, (err, result) => {
+  cart.getAllCart(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });
@@ -103,12 +103,13 @@ exports.createPayment = (req, res) => {
         req.body.list_order_detail,
         (err, resultNewOrderDetail) => {
           if (resultNewOrderDetail.status === true) {
-            voucher.update_use_voucher(
-              req.body.use_voucher,
-              (err, result_use_voucher) => {
-                if (err) res.json({ data: result_use_voucher });
-              }
-            );
+            if (req.body.use_voucher !== undefined)
+              voucher.update_use_voucher(
+                req.body.use_voucher,
+                (err, result_use_voucher) => {
+                  if (err) res.json({ data: result_use_voucher });
+                }
+              );
 
             if (req.body.payment_method === "bacs") {
               let ipAddr =
