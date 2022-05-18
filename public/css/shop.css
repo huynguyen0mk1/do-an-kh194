@@ -1,0 +1,252 @@
+.bMHvaM {
+  max-height: 155px;
+  background-image: url(https://salt.tikicdn.com/ts/sellercenterFE/65/0c/66/cbeb312….png);
+  position: relative;
+  background-size: cover;
+  z-index: 1;
+}
+.hfMLFx {
+  width: 1270px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.jHoZit {
+  padding-left: 24px;
+  padding-top: 24px;
+  display: flex;
+  max-height: 91px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.Ga-dUl {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.fKjHLu {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.fTqZSn {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 18px 0px;
+  cursor: pointer;
+  position: relative;
+  width: 156px;
+  text-align: center;
+}
+.iHDxar {
+  font-size: 13px;
+  color: rgb(255, 255, 255);
+  line-height: 20px;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: bold;
+  transition: font-weight 0.1s ease-in 0s;
+}
+.fTqZSn {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 18px 0px;
+  cursor: pointer;
+  position: relative;
+  width: 156px;
+  text-align: center;
+}
+.dUkuyS {
+  width: 320px;
+  margin-left: auto;
+  margin-right: 24px;
+  position: relative;
+}
+.krMvCR {
+  position: absolute;
+  top: 8px;
+  left: 14px;
+}
+.khDiHu {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  height: 36px;
+  padding-left: 44px;
+}
+.dTHdtC {
+  position: absolute;
+  inset: 0px;
+  background-color: rgb(36, 36, 36);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -3;
+}
+.kByqex .widget-item {
+  margin-top: 16px;
+}
+
+.gQzyWn {
+  padding: 16px;
+  background-color: white;
+}
+.julxTh {
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  color: rgb(36, 36, 36);
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.julxTh h2 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  margin: 0px;
+}
+.gnquMS {
+  background-color: rgb(255, 255, 255);
+}
+.etcxHo {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.etcxHo .slick-list {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+.etcxHo .slick-track {
+  display: flex;
+}
+.etcxHo .slick-slide {
+  height: auto;
+}
+.etcxHo .slick-slide > div {
+  height: 100%;
+}
+.iCVjOM {
+  display: flex;
+  position: relative;
+  width: 232px;
+}
+.hzOjLj {
+  position: relative;
+  opacity: 1;
+  width: 100%;
+  padding-bottom: calc(63.7931%);
+}
+.iwisNA {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+.jLeSfx {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(rgba(0, 0, 0, 0.15) 0px 1px 3px);
+  position: absolute;
+}
+
+img {
+  max-width: 100%;
+}
+
+img {
+  border-style: none;
+}
+.gjycsl {
+  position: relative;
+  display: flex;
+  height: 100%;
+  padding: 0px 0px 12px;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.kVjkXt {
+  position: relative;
+  display: flex;
+  height: 100%;
+}
+.fiDOnB {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.jCoqiJ {
+  width: 100%;
+  background: rgb(1, 127, 255);
+  padding: 6px 12px;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-bottom: 6px;
+}
+.jSTRnN {
+  color: rgb(255, 255, 255);
+}
+
+.cLsHe {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  max-height: 24px;
+  color: rgb(36, 36, 36);
+}
+.bvMJFo {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  max-height: 20px;
+  color: rgb(120, 120, 120);
+}
+.cHQuCr {
+  display: block;
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  line-height: 0px;
+}
+.ernndx {
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  background: rgb(255, 255, 255);
+  color: rgb(1, 127, 255);
+}

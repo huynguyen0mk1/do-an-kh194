@@ -89,6 +89,14 @@ exports.getAProduct = (req, res) => {
     else res.json({ data: result });
   });
 };
+
+exports.getCustomerOrder = (req, res) => {
+  order.getCustomerOrder(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
 exports.createPayment = (req, res) => {
   if (req.body.new_billing_address === true) {
     address.newAddress(
