@@ -244,6 +244,7 @@ Cart.changAmount = (info, result) => {
 
 Cart.changeCart = (info, result) => {
   console.log(info);
+
   sql.query(
     "SELECT id, amount, id_user,id_product FROM cart WHERE id_user = ? and id_product  = ?",
     [info.user_id, info.product_id],

@@ -59,6 +59,8 @@ exports.getUser = (req, res) => {
   if (req.body.key === "111111111") {
     console.log(req.body.user);
     login.checkUser(req.body.user, (err, result) => {
+      console.log("err");
+      console.log(err);
       if (err) res.json({ data: result, note: "User Name is Incorrect" });
       else {
         if (result.data.length !== 1)
@@ -67,9 +69,9 @@ exports.getUser = (req, res) => {
             note: "User Name is Incorrect",
           });
         else {
-          console.log(result);
-          login.getUser(req.body.user, (err, resultA) => {
-            if (err)
+          login.getUser(req.body.user, (errA, resultA) => {
+            
+            if (errA)
               res.json({
                 status: false,
 

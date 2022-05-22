@@ -7,10 +7,10 @@ exports.getAllParentCategory = (req, res) => {
   });
 };
 exports.getAllCategory = (req, res) => {
-    category.getAllCategory((err, result) => {
-      if (err) res.json({ data: result });
-      else res.json({ data: result });
-    });
+  category.getAllCategory((err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
 };
 
 exports.getListCategorys = (req, res) => {

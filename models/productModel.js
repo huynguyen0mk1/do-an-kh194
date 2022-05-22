@@ -45,7 +45,8 @@ Product.getAllProductUser = (info, result) => {
 Product.getAllProductCategory = (info, result) => {
   console.log(info);
   sql.query(
-    "SELECT `id`, `name`, sale,maxSale, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE category_parent_id = ? or id_category  = ? "+info.type_sort,
+    "SELECT `id`, `name`, sale,maxSale, `id_shop`, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` WHERE category_parent_id = ? or id_category  = ? " +
+      info.type_sort,
     [info.code, info.code, info.type_sort],
     (err, res) => {
       if (err) {
@@ -60,7 +61,8 @@ Product.getAllProductCategory = (info, result) => {
 Product.getAllProductCustomer = (info, result) => {
   console.log(info);
   sql.query(
-    "SELECT `id`, `name`, `id_shop`, sale,maxSale, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`"+info.type_sort,
+    "SELECT `id`, `name`, `id_shop`, sale,maxSale, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct`" +
+      info.type_sort,
     [info.type_sort],
     (err, res) => {
       if (err) {
@@ -75,7 +77,8 @@ Product.getAllProductCustomer = (info, result) => {
 Product.getResultSearch = (info, result) => {
   console.log(info);
   sql.query(
-    "SELECT `id`, `name`, `id_shop`, sale,maxSale, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` Where name LIKE ? "+info.type_sort,
+    "SELECT `id`, `name`, `id_shop`, sale,maxSale, `code`, `name_user`, `shop_name`, `id_category`, `category_name`, `full_description`, `short_description`, `price`, `total`, `main_image`, `is_activate`, `create_date` FROM `allproduct` Where name LIKE ? " +
+      info.type_sort,
     [`%${info.search}%`],
     (err, res) => {
       if (err) {

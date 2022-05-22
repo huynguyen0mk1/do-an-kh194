@@ -20,6 +20,38 @@
   -webkit-box-align: center;
   align-items: center;
 }
+.kLonNv {
+  width: 64px;
+}
+.kLonNv img {
+  border-radius: 100%;
+}
+.jZYoaR {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-left: 16px;
+}
+.kgqRrB {
+  color: rgb(255, 255, 255);
+  line-height: 24px;
+  font-size: 17px;
+  font-weight: initial;
+  margin: 0px;
+}
+.bZJHNY {
+  flex-direction: row;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-right: 24px;
+}
+.fBdOUa {
+  height: 18px;
+  width: 74px;
+  margin-right: 8px;
+}
 .Ga-dUl {
   display: flex;
   -webkit-box-align: center;
@@ -191,6 +223,16 @@ img {
   height: 100%;
   width: 100%;
 }
+.czboZb {
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+}
+.dAmNTy {
+  margin-right: 2px;
+  margin-top: 4px;
+}
 .jCoqiJ {
   width: 100%;
   background: rgb(1, 127, 255);
@@ -203,7 +245,18 @@ img {
 .jSTRnN {
   color: rgb(255, 255, 255);
 }
-
+.euNvZb {
+  width: 1px;
+  height: 8px;
+  margin-right: 8px;
+  margin-left: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.iUmIsA {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 20px;
+}
 .cLsHe {
   display: -webkit-box;
   -webkit-box-orient: vertical;

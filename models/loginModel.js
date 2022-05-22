@@ -5,26 +5,24 @@ var Login = function (login) {
   this.username = login.username;
 };
 Login.saveUser = (user, result) => {
-  {
-    sql.query("INSERT INTO Users  set ?", user, (err, res) => {
-      if (err) {
-        console.log(user);
-        result(err, { status: false, Message: err.sqlMessage });
-      } else {
-        sql.query(
-          "INSERT INTO users_role  set ?",
-          { id_user: user.id, id_role: "role-002" },
-          (err, res) => {
-            if (err) {
-              result(err, { status: false, Message: err.sqlMessage });
-            } else {
-              result(null, { status: true });
-            }
+  sql.query("INSERT INTO Users  set ?", user, (err, res) => {
+    if (err) {
+      console.log(user);
+      result(err, { status: false, Message: err.sqlMessage });
+    } else {
+      sql.query(
+        "INSERT INTO users_role  set ?",
+        { id_user: user.id, id_role: "role-002" },
+        (err, res) => {
+          if (err) {
+            result(err, { status: false, Message: err.sqlMessage });
+          } else {
+            result(null, { status: true });
           }
-        );
-      }
-    });
-  }
+        }
+      );
+    }
+  });
 };
 Login.saveNewSeller = (user, result) => {
   {
@@ -67,20 +65,19 @@ Login.saveNewSeller = (user, result) => {
   }
 };
 Login.getUser = (user, result) => {
-  {
-    sql.query(
-      "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code`,gender FROM `info_user` WHERE email = ? and password = ?",
-      [user.email, user.password],
-      (err, res) => {
-        if (err) {
-          //console.log("error: ", err);
-          result(err, { status: false, Message: err.sqlMessage, data: [] });
-        } else {
-          result(null, { status: true, data: res[0] });
-        }
+  sql.query(
+    "SELECT `id`, `email`, `first_name`, `last_name`, `birthday`, `number_phone`, `full_name`, `password`, `avatar`, `role`, `code`,gender FROM `info_user` WHERE email = ? and password = ?",
+    [user.email, user.password],
+    (err, res) => {
+      if (err) {
+        //console.log("error: ", err);
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        console.log(res[0]);
+        result(null, { status: true, data: res[0] });
       }
-    );
-  }
+    }
+  );
 };
 Login.getRole = (user, result) => {
   {
@@ -125,7 +122,7 @@ Login.checkUser = (user, result) => {
                 ),
                 user.email,
               ],
-              (err, res) => {}
+              (err, resA) => {}
             );
           result(null, { status: true, data: res });
         }
@@ -141,7 +138,11 @@ Login.getAllUser = (result) => {
       (err, res) => {
         if (err) {
           //console.log("error: ", err);
-          result(err, { status: false, Message: err.sqlMessage, data: err });
+          result(err, {
+            status: false,
+            Message: err.sqlMessage,
+            data: err,
+          });
         } else {
           result(null, { status: true, data: res });
         }
@@ -222,6 +223,7 @@ Login.updateEmailUser = (user, result) => {
 Login.updatePasswordUser = (user, result) => {
   {
     console.log(user);
+
     sql.query(
       "UPDATE users SET password=? WHERE id=?",
       [user.password, user.id],
