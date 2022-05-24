@@ -215,6 +215,14 @@ img {
   display: flex;
   height: 100%;
 }
+.kByqex .widget-item {
+  margin-top: 16px;
+}
+
+.gQzyWn {
+  padding: 16px;
+  background-color: white;
+}
 .fiDOnB {
   display: flex;
   flex-direction: column;
@@ -256,6 +264,21 @@ img {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
   line-height: 20px;
+}
+.bvMJFo {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  max-height: 20px;
+  color: rgb(120, 120, 120);
 }
 .cLsHe {
   display: -webkit-box;
