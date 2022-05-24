@@ -13,43 +13,35 @@ OrderDetail.newOrderDetail = (info, result) => {
     }
   }
   for (let i in data) {
-    sql.connect(function (errsql) {
-      if (errsql) result(errsql, { status: false, Message: errsql.sqlMessage ,data:[]});
-      else
-        sql.query("INSERT INTO orders_detail set ?", data[i], (err, res) => {
-          if (err) {
-            console.log(err.sqlMessage);
-            result(err, { status: false, Message: err.sqlMessage });
-          } else
-            sql.query(
-              "UPDATE `products` SET `total`= total-? WHERE `id`=?",
-              [data[i].amount, data[i].id_product],
-              (err, res) => {
-                if (err) {
-                  console.log(err.sqlMessage);
-                  result(err, { status: false, Message: err.sqlMessage });
-                }
-              }
-            );
-        });
+    sql.query("INSERT INTO orders_detail set ?", data[i], (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage });
+      } else
+        sql.query(
+          "UPDATE `products` SET `total`= total-? WHERE `id`=?",
+          [data[i].amount, data[i].id_product],
+          (errA, res) => {
+            if (err) {
+              result(err, { status: false, Message: errA.sqlMessage });
+            }
+          }
+        );
     });
   }
   result(null, { status: true });
 };
 
 OrderDetail.deleteOrderDetail = (info, result) => {
-  
-      sql.query(
-        "DELETE FROM `orders_detail` WHERE `id_order` LIKE  ?",
-        info.concat("%"),
-        (err, res) => {
-          if (err) {
-            console.log(err.sqlMessage);
-            result(err, { status: false, Message: err.sqlMessage });
-          } else result(null, { status: true });
-        }
-      );
-  
+  sql.query(
+    "DELETE FROM `orders_detail` WHERE `id_order` LIKE  ?",
+    info.concat("%"),
+    (err, res) => {
+      if (err) {
+        console.log(err.sqlMessage);
+        result(err, { status: false, Message: err.sqlMessage });
+      } else result(null, { status: true });
+    }
+  );
 };
 
 module.exports = OrderDetail;

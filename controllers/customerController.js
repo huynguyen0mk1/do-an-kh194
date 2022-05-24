@@ -6,6 +6,7 @@ let order = require("../models/orderModel");
 let address = require("../models/addressModel");
 let category = require("../models/categoryModel");
 let voucher = require("../models/voucherModel");
+let shop = require("../models/shopModel");
 exports.changeCart = (req, res) => {
   cart.changeCart(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -42,6 +43,14 @@ exports.getAllCartUser = (req, res) => {
     else res.json({ data: result });
   });
 };
+
+exports.getAShop = (req, res) => {
+  shop.getAShop(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
 exports.changAmount = (req, res) => {
   cart.changAmount(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -66,6 +75,13 @@ exports.getAllProductCategory = (req, res) => {
 
 exports.getResultSearch = (req, res) => {
   product.getResultSearch(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
+exports.getAllProductInShop = (req, res) => {
+  product.getAllProductInShop(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });

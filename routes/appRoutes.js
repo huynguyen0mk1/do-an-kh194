@@ -73,7 +73,8 @@ module.exports = function (app) {
   app.post("/customer/getAllCartUser", customer.getAllCartUser);
   app.post("/customer/changAmount", customer.changAmount);
   app.post("/customer/getCustomerOrder", customer.getCustomerOrder);
-
+  app.post("/customer/getAShop", customer.getAShop);
+  app.post("/customer/getAllProductInShop", customer.getAllProductInShop);
   app.post("/customer/deleteACart", customer.deleteACart);
   app.post("/customer/createPayment", customer.createPayment);
   app.post("/customer/paymentReturn", customer.paymentReturn);

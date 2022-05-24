@@ -7,79 +7,83 @@ var Shop = function (shop) {
 };
 
 Shop.getAllWithUser = (info, result) => {
-  
-      sql.query(
-        "SELECT id, name, name_category, is_activate, phone_number, address, create_date, code FROM sellershop WHERE code = ?",
-        [info.code],
-        (err, res) => {
-          if (err) {
-            result(err, { status: false, Message: err.sqlMessage, data: [] });
-          } else {
-            result(null, { status: true, data: res });
-          }
-        }
-      );
-  
+  sql.query(
+    "SELECT id, name, name_category, is_activate, phone_number, address, create_date, code FROM sellershop WHERE code = ?",
+    [info.code],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, { status: true, data: res });
+      }
+    }
+  );
 };
 Shop.getAllWithUserAndShop = (info, result) => {
-  
-      sql.query(
-        "SELECT `id`, `name`, `name_category`, `id_category`, `is_activate`, `phone_number`, `address`, `create_date`, `code`, `short_description`, `full_description`, image FROM sellershop WHERE id=? and code = ?",
-        [info.id, info.code],
-        (err, res) => {
-          if (err) {
-            result(err, { status: false, Message: err.sqlMessage, data: [] });
-          } else {
-            result(null, { status: true, data: res[0] });
-          }
-        }
-      );
-  
+  sql.query(
+    "SELECT `id`, `name`, `name_category`, `id_category`, `is_activate`, `phone_number`, `address`, `create_date`, `code`, `short_description`, `full_description`, image FROM sellershop WHERE id=? and code = ?",
+    [info.id, info.code],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, { status: true, data: res[0] });
+      }
+    }
+  );
+};
+Shop.getAShop = (info, result) => {
+  sql.query(
+    "SELECT DISTINCT `id`, `name`, `name_category`, `id_category`, `phone_number`, `address`, `create_date`, `code`, `short_description`, `full_description`, image FROM sellershop WHERE id=?",
+    [info.id],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        if (res.length > 0) result(null, { status: true, data: res[0] });
+        else result(null, { status: false, data: {} });
+      }
+    }
+  );
 };
 Shop.getAllShop = (info, result) => {
-  
-      sql.query(
-        "SELECT id, name, id_user, name_user, id_category, name_category, is_activate, full_description, short_description, phone_number, address, create_date FROM allshop",
+  sql.query(
+    "SELECT id, name, id_user, name_user, id_category, name_category, is_activate, full_description, short_description, phone_number, address, create_date FROM allshop",
 
-        (err, res) => {
-          if (err) {
-            result(err, { status: false, Message: err.sqlMessage, data: [] });
-          } else {
-            result(null, { status: true, data: res });
-          }
-        }
-      );
-  
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, { status: true, data: res });
+      }
+    }
+  );
 };
 Shop.updateStatusShop = (info, result) => {
-  
-      sql.query(
-        "UPDATE `shops` SET is_activate = is_activate*(-1) WHERE id = ?",
-        [info.id],
-        (err, res) => {
-          if (err) {
-            result(err, { status: false, Message: err.sqlMessage });
-          } else {
-            result(null, { status: true });
-          }
-        }
-      );
-  
+  sql.query(
+    "UPDATE `shops` SET is_activate = is_activate*(-1) WHERE id = ?",
+    [info.id],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage });
+      } else {
+        result(null, { status: true });
+      }
+    }
+  );
 };
 Shop.updateInfoShop = (info, result) => {
-  
-      sql.query(
-        "UPDATE shops SET name=?,phone_number=?,address=?,short_description=?,full_description=?, image=? WHERE id=?",
-        info,
-        (err, res) => {
-          if (err) {
-            result(err, { status: false, Message: err.sqlMessage });
-          } else {
-            result(null, { status: true });
-          }
-        }
-      );
-  
+  sql.query(
+    "UPDATE shops SET name=?,phone_number=?,address=?,short_description=?,full_description=?, image=? WHERE id=?",
+    info,
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage });
+      } else {
+        result(null, { status: true });
+      }
+    }
+  );
 };
 
 Shop.newShop = (info, result) => {
@@ -87,7 +91,12 @@ Shop.newShop = (info, result) => {
     if (err1) res.json({ data: data });
     else {
       sql.connect(function (errsql) {
-        if (errsql) result(errsql, { status: false, Message: errsql.sqlMessage ,data:[]});
+        if (errsql)
+          result(errsql, {
+            status: false,
+            Message: errsql.sqlMessage,
+            data: [],
+          });
         else
           sql.query(
             "INSERT INTO shops set ?",
@@ -105,14 +114,12 @@ Shop.newShop = (info, result) => {
   });
 };
 Shop.newAShop = (info, result) => {
-  
-      sql.query("INSERT INTO shops set ?", info, (err, res) => {
-        if (err) {
-          result(err, { status: false, Message: err.sqlMessage });
-        } else {
-          result(null, { status: true });
-        }
-      });
-  
+  sql.query("INSERT INTO shops set ?", info, (err, res) => {
+    if (err) {
+      result(err, { status: false, Message: err.sqlMessage });
+    } else {
+      result(null, { status: true });
+    }
+  });
 };
 module.exports = Shop;
