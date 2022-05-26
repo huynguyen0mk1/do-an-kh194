@@ -90,26 +90,17 @@ Shop.newShop = (info, result) => {
   user.getIdUser(info.id_user, (err1, data) => {
     if (err1) res.json({ data: data });
     else {
-      sql.connect(function (errsql) {
-        if (errsql)
-          result(errsql, {
-            status: false,
-            Message: errsql.sqlMessage,
-            data: [],
-          });
-        else
-          sql.query(
-            "INSERT INTO shops set ?",
-            { ...info, id_user: data.data.id },
-            (err, res) => {
-              if (err) {
-                result(err, { status: false, Message: err.sqlMessage });
-              } else {
-                result(null, { status: true });
-              }
-            }
-          );
-      });
+      sql.query(
+        "INSERT INTO shops set ?",
+        { ...info, id_user: data.data.id },
+        (err, res) => {
+          if (err) {
+            result(err, { status: false, Message: err.sqlMessage });
+          } else {
+            result(null, { status: true });
+          }
+        }
+      );
     }
   });
 };

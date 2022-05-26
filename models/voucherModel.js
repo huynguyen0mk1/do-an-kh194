@@ -119,17 +119,12 @@ Voucher.newVoucher = (info, result) => {
     else {
       console.log(resultVoucher);
       if (resultVoucher.data === undefined) {
-        sql.connect(function (errsql) {
-          if (errsql)
-            result(err, { status: false, Message: errsql.sqlMessage });
-          else
-            sql.query("INSERT INTO `voucher` set ?", info, (err, res) => {
-              if (err) {
-                result(err, { status: false, Message: err.sqlMessage });
-              } else {
-                result(null, { status: true });
-              }
-            });
+        sql.query("INSERT INTO `voucher` set ?", info, (err, res) => {
+          if (err) {
+            result(err, { status: false, Message: err.sqlMessage });
+          } else {
+            result(null, { status: true });
+          }
         });
       }
     }
