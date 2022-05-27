@@ -1,11 +1,14 @@
 "use strict";
 var sql = require("./db.js");
-exports.send_mail = (info, result) => {
+exports.send_mail = (info) => {
   sql.query(
     "SELECT `id`, `key_1`, `key_2`, `value_1`, `value_2`, `description` FROM `tbl_common` WHERE key_1 = 'send_email' ORDER BY id ASC",
     (err, res) => {
       if (err) {
-        result(err, { status: false });
+        console.log(err, "send_mail " + info.subject, {
+          status: false,
+          line: 8,
+        });
       } else {
         if (res.length === 2) {
           const nodemailer = require("nodemailer");
@@ -25,13 +28,19 @@ exports.send_mail = (info, result) => {
           };
           transporter.sendMail(mailOptions, function (error, data) {
             if (error) {
-              result(null, { status: false });
+              console.log("send_mail " + info.subject, {
+                status: false,
+                line: 28,
+              });
             } else {
-              result(null, { status: true });
+              console.log("send_mail " + info.subject, {
+                status: true,
+                line: 30,
+              });
             }
           });
-          result(null, { status: true });
-        } else result(null, { status: false });
+        } else
+          console.log("send_mail " + info.subject, { status: false, line: 34 });
       }
     }
   );

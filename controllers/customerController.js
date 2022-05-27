@@ -205,10 +205,7 @@ exports.createPayment = (req, res) => {
               vnp_Params["vnp_SecureHash"] = signed;
               vnpUrl +=
                 "?" + querystring.stringify(vnp_Params, { encode: false });
-              sendMail.send_mail(
-                req.body.email,
-                (err_send_mail, result_send_mail) => {}
-              );
+              sendMail.send_mail(req.body.email);
               res.json({
                 status: true,
                 data: vnpUrl,
