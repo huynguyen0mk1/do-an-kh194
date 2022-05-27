@@ -1,0 +1,48 @@
+SELECT
+    o.id AS id,
+    DATE_FORMAT(o.create_date, '%d/%m/%Y') AS create_date,
+    o.id_shop AS id_shop,
+    o.code_shipping AS code_shipping,
+    u1.code AS code_user,
+    CONCAT(u1.first_name, ' ', u1.last_name) AS name_user,
+    u1.`avatar`,
+    u1.email,
+    u1.gender,u1.number_phone,
+    a.country as country_shipping,
+    a.address as address_shipping,
+    a.full_name as full_name_shipping,
+    a.number_phone as number_phone_shipping,
+    a.email as email_shipping,
+    s.name AS name_shop,
+    s.id_category AS id_category,
+    c.name AS name_category,
+    o.percent AS percent,
+    o.max_value AS max_value,
+    o.total AS total,
+    u.code AS CODE,
+    CONCAT(u.first_name, ' ', u.last_name) AS name_seller,
+    o.status AS
+STATUS
+    ,
+    o.status_ship AS status_ship,
+    su.id AS id_ship,
+    su.name AS name_ship
+FROM
+    orders o
+JOIN shops s ON
+    (o.id_shop = s.id)
+JOIN users u ON
+    (u.id = s.id_user)
+JOIN users u1 ON
+    (u1.id = o.id_user)
+JOIN categorys c ON
+    (c.id = s.id_category)
+JOIN shipping_unit su ON
+    (o.id_shipping = su.id)
+    JOIN addresses a ON a.id = o.address_shipping
+ORDER BY
+    o.id_shop
+//=============================================================================================
+INSERT INTO `tbl_common`(`id`, `key_1`, `key_2`, `value_1`, `value_2`, `description`) 
+VALUES ('id0001', 'send_email', 'email','', 'test_email@gmail.com','send_mail'),
+('id0002', 'send_email', 'pass','', '123456','send_mail')

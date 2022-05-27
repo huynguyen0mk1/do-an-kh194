@@ -28,15 +28,16 @@ Order.deleteOrder = (info, result) => {
     }
   );
 };
-Order.updateOrder = (info, result) => {
+Order.updateOrderCust = (info, result) => {
+  console.log(info);
   sql.query(
     "UPDATE `orders` SET `status`=? WHERE `id` LIKE  ?",
-    [info.status, info.id.concat("%")],
+    [info.status, info.id],
     (err, res) => {
       if (err) {
         console.log(err.sqlMessage);
         result(err, { status: false, Message: err.sqlMessage });
-      } else result(null, { status: true });
+      }
     }
   );
 };

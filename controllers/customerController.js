@@ -7,6 +7,7 @@ let address = require("../models/addressModel");
 let category = require("../models/categoryModel");
 let voucher = require("../models/voucherModel");
 let shop = require("../models/shopModel");
+let sendMail = require("../models/sendMail");
 exports.changeCart = (req, res) => {
   cart.changeCart(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -204,6 +205,10 @@ exports.createPayment = (req, res) => {
               vnp_Params["vnp_SecureHash"] = signed;
               vnpUrl +=
                 "?" + querystring.stringify(vnp_Params, { encode: false });
+              sendMail.send_mail(
+                req.body.email,
+                (err_send_mail, result_send_mail) => {}
+              );
               res.json({
                 status: true,
                 data: vnpUrl,
@@ -284,9 +289,15 @@ exports.paymentReturn = (req, res) => {
       cart.deleteAllCartOfUserWithCode(req.body.code, (err, result) => {
         if (err) res.json({ status: false });
         else {
-          order.updateOrder(
-            { id: req.body.id_order, status: "đã thanh toán" },
-            (err, resultUpdateOrde) => {}
+          order.updateOrderCust(
+            { id: req.body.id_order.concat("%"), status: "đã thanh toán" },
+            (errUpdateOrder, resultUpdateOrde) => {
+              console.log(req.body);
+              if (errUpdateOrder) res.json({ status: false });
+              else {
+                res.json({ status: true });
+              }
+            }
           );
           res.json({ status: true });
         }

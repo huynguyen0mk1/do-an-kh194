@@ -199,6 +199,17 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
             </tr>
                       <tr>
+              <td><strong>tbl_common</strong></td>
+              <td>CREATE TABLE `tbl_common` (<br>
+ &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`key_1` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`key_2` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`value_1` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`value_2` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`description` text COLLATE utf8_vietnamese_ci NOT NULL<br>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
+            </tr>
+                      <tr>
               <td><strong>users</strong></td>
               <td>CREATE TABLE `users` (<br>
  &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
@@ -241,14 +252,14 @@
               <td>CREATE TABLE `voucher` (<br>
  &nbsp;`id` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
  &nbsp;`id_apply` varchar(256) COLLATE utf8_vietnamese_ci NOT NULL,<br>
- &nbsp;`name` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
- &nbsp;`code_voucher` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
- &nbsp;`description` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
- &nbsp;`date_start` datetime NOT NULL,<br>
- &nbsp;`date_end` datetime NOT NULL,<br>
- &nbsp;`percent` float NOT NULL,<br>
- &nbsp;`max_value` int(11) NOT NULL,<br>
- &nbsp;`image` text COLLATE utf8_vietnamese_ci NOT NULL,<br>
+ &nbsp;`name` text COLLATE utf8_vietnamese_ci DEFAULT NULL,<br>
+ &nbsp;`code_voucher` text COLLATE utf8_vietnamese_ci DEFAULT NULL,<br>
+ &nbsp;`description` text COLLATE utf8_vietnamese_ci DEFAULT NULL,<br>
+ &nbsp;`date_start` datetime DEFAULT NULL,<br>
+ &nbsp;`date_end` datetime DEFAULT NULL,<br>
+ &nbsp;`percent` float DEFAULT NULL,<br>
+ &nbsp;`max_value` int(11) DEFAULT NULL,<br>
+ &nbsp;`image` text COLLATE utf8_vietnamese_ci DEFAULT NULL,<br>
  &nbsp;`create_date` datetime NOT NULL,<br>
  &nbsp;PRIMARY KEY (`id`)<br>
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci</td>
@@ -269,7 +280,7 @@
         <tbody>
                       <tr>
               <td><strong>allcart</strong></td>
-              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allcart` AS select `c`.`id` AS `id`,`c`.`amount` AS `amount`,`c`.`id_user` AS `id_user`,`u`.`code` AS `CODE`,`c`.`id_product` AS `id_product`,`p`.`name` AS `name_product`,`p`.`price` AS `price`,`p`.`total` AS `total_amount`,`p`.`main_image` AS `main_image`,`p`.`id_shop` AS `id_shop`,`p`.`sale` AS `sale`,`p`.`maxSale` AS `max_sale`,`s`.`name` AS `name_shop`,`su`.`id` AS `id_unit_ship`,`su`.`name` AS `name_unit_ship`,`su`.`price` AS `price_unit_ship`,`ca`.`percent` AS `percent`,`ca`.`max_value` AS `max_value` from (((((`ban_hang`.`cart` `c` join `ban_hang`.`products` `p` on(`p`.`id` = `c`.`id_product`)) join `ban_hang`.`users` `u` on(`u`.`id` = `c`.`id_user`)) join `ban_hang`.`shops` `s` on(`s`.`id` = `p`.`id_shop`)) join `ban_hang`.`categorys` `ca` on(`ca`.`id` = `s`.`id_category`)) left join `ban_hang`.`shipping_unit` `su` on(`su`.`id_shop` = `s`.`id`)) order by `p`.`id_shop`</td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allcart` AS select `c`.`id` AS `id`,`c`.`amount` AS `amount`,`c`.`id_user` AS `id_user`,`u`.`code` AS `CODE`,`c`.`id_product` AS `id_product`,`p`.`name` AS `name_product`,`p`.`price` AS `price`,`p`.`total` AS `total_amount`,`p`.`main_image` AS `main_image`,`p`.`id_shop` AS `id_shop`,`p`.`sale` AS `sale`,`p`.`maxSale` AS `max_sale`,`s`.`name` AS `name_shop`,`su`.`id` AS `id_unit_ship`,`su`.`name` AS `name_unit_ship`,`su`.`price` AS `price_unit_ship`,`ca`.`percent` AS `percent`,`ca`.`max_value` AS `max_value` from (((((`ban_hang`.`users` `u` left join `ban_hang`.`cart` `c` on(`u`.`id` = `c`.`id_user`)) join `ban_hang`.`products` `p` on(`p`.`id` = `c`.`id_product`)) join `ban_hang`.`shops` `s` on(`s`.`id` = `p`.`id_shop`)) join `ban_hang`.`categorys` `ca` on(`ca`.`id` = `s`.`id_category`)) left join `ban_hang`.`shipping_unit` `su` on(`su`.`id_shop` = `s`.`id`)) order by `p`.`id_shop`</td>
             </tr>
                       <tr>
               <td><strong>allcategorydetail</strong></td>
@@ -281,7 +292,7 @@
             </tr>
                       <tr>
               <td><strong>allorder</strong></td>
-              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allorder` AS select `o`.`id` AS `id`,date_format(`o`.`create_date`,'%d/%m/%Y') AS `create_date`,`o`.`id_shop` AS `id_shop`,`o`.`code_shipping` AS `code_shipping`,`u1`.`code` AS `code_user`,`s`.`name` AS `name_shop`,`s`.`id_category` AS `id_category`,`c`.`name` AS `name_category`,`o`.`percent` AS `percent`,`o`.`max_value` AS `max_value`,`o`.`total` AS `total`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_seller`,`o`.`status` AS `status`,`o`.`status_ship` AS `status_ship`,`su`.`id` AS `id_ship`,`su`.`name` AS `name_ship` from (((((`ban_hang`.`orders` `o` join `ban_hang`.`shops` `s` on(`o`.`id_shop` = `s`.`id`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`)) join `ban_hang`.`users` `u1` on(`u1`.`id` = `o`.`id_user`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`shipping_unit` `su` on(`o`.`id_shipping` = `su`.`id`)) order by `o`.`id_shop`</td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`allorder` AS select `o`.`id` AS `id`,date_format(`o`.`create_date`,'%d/%m/%Y') AS `create_date`,`o`.`id_shop` AS `id_shop`,`o`.`code_shipping` AS `code_shipping`,`u1`.`code` AS `code_user`,concat(`u1`.`first_name`,' ',`u1`.`last_name`) AS `name_user`,`u1`.`avatar` AS `avatar`,`u1`.`email` AS `email`,`u1`.`gender` AS `gender`,`u1`.`number_phone` AS `number_phone`,`a`.`country` AS `country_shipping`,`a`.`address` AS `address_shipping`,`a`.`full_name` AS `full_name_shipping`,`a`.`number_phone` AS `number_phone_shipping`,`a`.`email` AS `email_shipping`,`s`.`name` AS `name_shop`,`s`.`id_category` AS `id_category`,`c`.`name` AS `name_category`,`o`.`percent` AS `percent`,`o`.`max_value` AS `max_value`,`o`.`total` AS `total`,`u`.`code` AS `CODE`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_seller`,`o`.`status` AS `STATUS`,`o`.`status_ship` AS `status_ship`,`su`.`id` AS `id_ship`,`su`.`name` AS `name_ship` from ((((((`ban_hang`.`orders` `o` join `ban_hang`.`shops` `s` on(`o`.`id_shop` = `s`.`id`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`)) join `ban_hang`.`users` `u1` on(`u1`.`id` = `o`.`id_user`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`shipping_unit` `su` on(`o`.`id_shipping` = `su`.`id`)) join `ban_hang`.`addresses` `a` on(`a`.`id` = `o`.`address_shipping`)) order by `o`.`id_shop`</td>
             </tr>
                       <tr>
               <td><strong>allproduct</strong></td>
@@ -313,7 +324,7 @@
             </tr>
                       <tr>
               <td><strong>transactionstatistics</strong></td>
-              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transactionstatistics` AS select `allorder`.`create_date` AS `create_date`,`allorder`.`id_shop` AS `id_shop`,`allorder`.`name_shop` AS `name_shop`,`allorder`.`id_category` AS `id_category`,`allorder`.`name_category` AS `name_category`,`allorder`.`percent` AS `percent`,`allorder`.`max_value` AS `max_value`,sum(`allorder`.`total`) AS `total`,`allorder`.`code` AS `code`,`allorder`.`name_seller` AS `name_seller` from `ban_hang`.`allorder` where `allorder`.`status` = 'đã thanh toán' group by `allorder`.`create_date`,`allorder`.`id_shop`,`allorder`.`name_shop`,`allorder`.`id_category`,`allorder`.`name_category`,`allorder`.`percent`,`allorder`.`max_value`,`allorder`.`code`,`allorder`.`name_seller`</td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transactionstatistics` AS select `allorder`.`create_date` AS `create_date`,`allorder`.`id_shop` AS `id_shop`,`allorder`.`name_shop` AS `name_shop`,`allorder`.`id_category` AS `id_category`,`allorder`.`name_category` AS `name_category`,`allorder`.`percent` AS `percent`,`allorder`.`max_value` AS `max_value`,sum(`allorder`.`total`) AS `total`,`allorder`.`CODE` AS `code`,`allorder`.`name_seller` AS `name_seller` from `ban_hang`.`allorder` where `allorder`.`STATUS` = 'đã thanh toán' group by `allorder`.`create_date`,`allorder`.`id_shop`,`allorder`.`name_shop`,`allorder`.`id_category`,`allorder`.`name_category`,`allorder`.`percent`,`allorder`.`max_value`,`allorder`.`CODE`,`allorder`.`name_seller`</td>
             </tr>
                       <tr>
               <td><strong>transaction_statistics_month</strong></td>
@@ -321,11 +332,15 @@
             </tr>
                       <tr>
               <td><strong>transaction_statistics_week</strong></td>
-              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transaction_statistics_week` AS select `allorder`.`create_date` AS `create_date`,`allorder`.`id_shop` AS `id_shop`,`allorder`.`name_shop` AS `name_shop`,`allorder`.`id_category` AS `id_category`,`allorder`.`name_category` AS `name_category`,`allorder`.`percent` AS `percent`,`allorder`.`max_value` AS `max_value`,sum(`allorder`.`total`) AS `total`,`allorder`.`code` AS `CODE`,`allorder`.`name_seller` AS `name_seller`,`allorder`.`status` AS `STATUS`,`allorder`.`status_ship` AS `status_ship` from `ban_hang`.`allorder` where `allorder`.`id` in (select `ban_hang`.`orders`.`id` from `ban_hang`.`orders` where `ban_hang`.`orders`.`create_date` between current_timestamp() - interval 1 week and current_timestamp()) and `allorder`.`status` = 'đã thanh toán' group by `allorder`.`create_date`,`allorder`.`id_shop`,`allorder`.`name_shop`,`allorder`.`id_category`,`allorder`.`name_category`,`allorder`.`percent`,`allorder`.`max_value`,`allorder`.`code`,`allorder`.`name_seller`,`allorder`.`status`,`allorder`.`status_ship`</td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transaction_statistics_week` AS select `allorder`.`create_date` AS `create_date`,`allorder`.`id_shop` AS `id_shop`,`allorder`.`name_shop` AS `name_shop`,`allorder`.`id_category` AS `id_category`,`allorder`.`name_category` AS `name_category`,`allorder`.`percent` AS `percent`,`allorder`.`max_value` AS `max_value`,sum(`allorder`.`total`) AS `total`,`allorder`.`CODE` AS `CODE`,`allorder`.`name_seller` AS `name_seller`,`allorder`.`STATUS` AS `STATUS`,`allorder`.`status_ship` AS `status_ship` from `ban_hang`.`allorder` where `allorder`.`id` in (select `ban_hang`.`orders`.`id` from `ban_hang`.`orders` where `ban_hang`.`orders`.`create_date` between current_timestamp() - interval 1 week and current_timestamp()) and `allorder`.`STATUS` = 'đã thanh toán' group by `allorder`.`create_date`,`allorder`.`id_shop`,`allorder`.`name_shop`,`allorder`.`id_category`,`allorder`.`name_category`,`allorder`.`percent`,`allorder`.`max_value`,`allorder`.`CODE`,`allorder`.`name_seller`,`allorder`.`STATUS`,`allorder`.`status_ship`</td>
             </tr>
                       <tr>
               <td><strong>unitshippingofshop</strong></td>
               <td>CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`unitshippingofshop` AS select `su`.`id` AS `id`,`su`.`name` AS `name`,`su`.`id_shop` AS `id_shop`,`s`.`name` AS `name_shop`,`su`.`description` AS `description`,`su`.`price` AS `price`,`u`.`code` AS `code`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `full_name` from ((`ban_hang`.`shipping_unit` `su` join `ban_hang`.`shops` `s` on(`s`.`id` = `su`.`id_shop`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`))</td>
+            </tr>
+                      <tr>
+              <td><strong>view_list_order_cust</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`view_list_order_cust` AS select `o`.`id` AS `id`,date_format(`o`.`create_date`,'%d/%m/%Y') AS `create_date`,`u1`.`code` AS `code_user`,`u`.`code` AS `CODE`,`od`.`id_product` AS `id_product`,`o`.`status` AS `status`,`o`.`status_ship` AS `status_ship`,concat(`u`.`first_name`,' ',`u`.`last_name`) AS `name_seller`,json_object('id',`o`.`id`,'create_date',date_format(`o`.`create_date`,'%d/%m/%Y'),'id_shop',`o`.`id_shop`,'code_shipping',`o`.`code_shipping`,'name_shop',`s`.`name`,'total',`o`.`total`,'status',`o`.`status`,'status_ship',`o`.`status_ship`,'id_category',`s`.`id_category`,'name_category',`c`.`name`,'percent',`o`.`percent`,'max_value',`o`.`max_value`,'id_ship',`su`.`id`,'name_ship',`su`.`name`) AS `order_info`,json_object('id',`od`.`id`,'amount',`od`.`amount`,'id_product',`od`.`id_product`,'subtotal',`od`.`subtotal`,'price',`od`.`price`,'name_product',`p`.`name`,'image_product',`p`.`main_image`) AS `order_detail` from (((((((`ban_hang`.`orders` `o` join `ban_hang`.`shops` `s` on(`o`.`id_shop` = `s`.`id`)) join `ban_hang`.`users` `u` on(`u`.`id` = `s`.`id_user`)) join `ban_hang`.`users` `u1` on(`u1`.`id` = `o`.`id_user`)) join `ban_hang`.`categorys` `c` on(`c`.`id` = `s`.`id_category`)) join `ban_hang`.`shipping_unit` `su` on(`o`.`id_shipping` = `su`.`id`)) join `ban_hang`.`orders_detail` `od` on(`od`.`id_order` = `o`.`id`)) join `ban_hang`.`products` `p` on(`p`.`id` = `od`.`id_product`)) group by `o`.`id`,`u1`.`code`,`u`.`code`,`od`.`id_product`,`o`.`status`,`o`.`status_ship`,`o`.`create_date`</td>
             </tr>
                   </tbody>
       </table>
