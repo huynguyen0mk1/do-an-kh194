@@ -20,18 +20,32 @@ exports.getAShop = (req, res) => {
   });
 };
 exports.newShop = (req, res) => {
-  shop.getAllWithUser(req.body.info, (err, resultGetAll) => {
-    if (err) res.json({ data: { ...resultGetAll, content: "" } });
-    else {
-      if (resultGetAll.data.length > 10) {
-        res.json({ data: { status: false, content: "max10" } });
-      } else
-        shop.newShop(req.body.info, (err, result) => {
-          if (err) res.json({ data: { ...result, content: "" } });
-          else res.json({ data: { ...result, content: "" } });
-        });
+  shop.getAllWithNameShop(
+    { name: req.body.info.name },
+    (err, resultNameShopAll) => {
+      if (err) res.json({ data: { ...resultNameShopAll, content: "" } });
+      else {
+        if (resultNameShopAll.data.length > 0) {
+          res.json({ data: { status: false, content: "name shop duplicate" } });
+        } else
+          shop.getAllWithUser(
+            { code: req.body.info.id_user },
+            (err, resultGetAll) => {
+              if (err) res.json({ data: { ...resultGetAll, content: "" } });
+              else {
+                if (resultGetAll.data.length > 10) {
+                  res.json({ data: { status: false, content: "max10" } });
+                } else
+                  shop.newShop(req.body.info, (err, result) => {
+                    if (err) res.json({ data: { ...result, content: "" } });
+                    else res.json({ data: { ...result, content: "" } });
+                  });
+              }
+            }
+          );
+      }
     }
-  });
+  );
 };
 exports.updateInfoShop = (req, res) => {
   shop.updateInfoShop(req.body.info, (err, result) => {

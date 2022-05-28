@@ -308,7 +308,7 @@
             </tr>
                       <tr>
               <td><strong>category_hot</strong></td>
-              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`category_hot` AS select `c`.`id` AS `id`,`c`.`name` AS `name`,`c`.`image` AS `image`,sum(`od`.`amount`) AS `amount` from ((`ban_hang`.`categorys` `c` left join `ban_hang`.`products` `p` on(`p`.`id_category` = `c`.`id`)) left join `ban_hang`.`orders_detail` `od` on(`od`.`id_product` = `p`.`id`)) group by `c`.`id`,`c`.`name`,`c`.`image` order by sum(`od`.`amount`) desc</td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`category_hot` AS select `c`.`id` AS `id`,`c`.`name` AS `name`,`c`.`image` AS `image`,sum(`od`.`amount`) AS `amount` from ((`ban_hang`.`categorys` `c` left join `ban_hang`.`products` `p` on(`p`.`id_category` = `c`.`id`)) left join `ban_hang`.`orders_detail` `od` on(`od`.`id_product` = `p`.`id`)) group by `c`.`id`,`c`.`name`,`c`.`image` order by sum(`od`.`amount`) desc limit 12</td>
             </tr>
                       <tr>
               <td><strong>infoorder</strong></td>
@@ -325,6 +325,18 @@
                       <tr>
               <td><strong>transactionstatistics</strong></td>
               <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transactionstatistics` AS select `allorder`.`create_date` AS `create_date`,`allorder`.`id_shop` AS `id_shop`,`allorder`.`name_shop` AS `name_shop`,`allorder`.`id_category` AS `id_category`,`allorder`.`name_category` AS `name_category`,`allorder`.`percent` AS `percent`,`allorder`.`max_value` AS `max_value`,sum(`allorder`.`total`) AS `total`,`allorder`.`CODE` AS `code`,`allorder`.`name_seller` AS `name_seller` from `ban_hang`.`allorder` where `allorder`.`STATUS` = 'đã thanh toán' group by `allorder`.`create_date`,`allorder`.`id_shop`,`allorder`.`name_shop`,`allorder`.`id_category`,`allorder`.`name_category`,`allorder`.`percent`,`allorder`.`max_value`,`allorder`.`CODE`,`allorder`.`name_seller`</td>
+            </tr>
+                      <tr>
+              <td><strong>transactionstatistics_admin</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transactionstatistics_admin` AS select date_format(str_to_date(`allorder`.`create_date`,'%d/%m/%Y'),'%d/%m/%Y 22:00:00') AS `create_date`,sum(case when `allorder`.`total` * (100 - `allorder`.`percent`) / 100 &gt; `allorder`.`total` - `allorder`.`max_value` then `allorder`.`max_value` else `allorder`.`total` * `allorder`.`percent` / 100 end) AS `total` from `ban_hang`.`allorder` where `allorder`.`STATUS` = 'đã thanh toán' group by `allorder`.`create_date`</td>
+            </tr>
+                      <tr>
+              <td><strong>transactionstatistics_admin_month</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transactionstatistics_admin_month` AS select date_format(str_to_date(`allorder`.`create_date`,'%d/%m/%Y'),'%m/%Y') AS `create_date`,sum(case when `allorder`.`total` * (100 - `allorder`.`percent`) / 100 &gt; `allorder`.`total` - `allorder`.`max_value` then `allorder`.`max_value` else `allorder`.`total` * `allorder`.`percent` / 100 end) AS `total` from `ban_hang`.`allorder` where `allorder`.`STATUS` = 'đã thanh toán' and date_format(str_to_date(`allorder`.`create_date`,'%d/%m/%Y'),'%Y-%m-%d &nbsp;22:00:00') between current_timestamp() - interval 12 month and current_timestamp() group by `allorder`.`create_date`</td>
+            </tr>
+                      <tr>
+              <td><strong>transactionstatistics_admin_week</strong></td>
+              <td>CREATE ALGORITHM=TEMPTABLE DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ban_hang`.`transactionstatistics_admin_week` AS select date_format(str_to_date(`allorder`.`create_date`,'%d/%m/%Y'),'%Y-%m-%d') AS `create_date`,sum(case when `allorder`.`total` * (100 - `allorder`.`percent`) / 100 &gt; `allorder`.`total` - `allorder`.`max_value` then `allorder`.`max_value` else `allorder`.`total` * `allorder`.`percent` / 100 end) AS `total` from `ban_hang`.`allorder` where `allorder`.`STATUS` = 'đã thanh toán' and date_format(str_to_date(`allorder`.`create_date`,'%d/%m/%Y'),'%Y-%m-%d &nbsp;22:00:00') between current_timestamp() - interval 1 week and current_timestamp() group by `allorder`.`create_date`</td>
             </tr>
                       <tr>
               <td><strong>transaction_statistics_month</strong></td>

@@ -1,6 +1,7 @@
 var shop = require("../models/shopModel");
 var product = require("../models/productModel");
 var category = require("../models/categoryModel");
+var transactionStatistics = require("../models/transactionStatisticsModel");
 exports.getAllShop = (req, res) => {
   shop.getAllShop(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -9,6 +10,18 @@ exports.getAllShop = (req, res) => {
 };
 exports.getAllProduct = (req, res) => {
   product.getAllProduct(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getAdminMonth = (req, res) => {
+  transactionStatistics.getAdminMonth((err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getAdminWeek = (req, res) => {
+  transactionStatistics.getAdminWeek((err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });

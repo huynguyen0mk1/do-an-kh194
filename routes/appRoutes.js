@@ -56,6 +56,10 @@ module.exports = function (app) {
   app.post("/seller/newVoucher", seller.newVoucher);
   //admin
   app.post("/admin/getAllProduct", admin.getAllProduct);
+
+  app.post("/admin/getAdminWeek", admin.getAdminWeek);
+  app.post("/admin/getAdminMonth", admin.getAdminMonth);
+
   app.post("/admin/getALLShop", admin.getAllShop);
   app.post("/admin/newCategory", admin.newCategory);
   app.post("/admin/updateCategory", admin.updateCategory);

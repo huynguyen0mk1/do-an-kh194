@@ -19,6 +19,19 @@ Shop.getAllWithUser = (info, result) => {
     }
   );
 };
+Shop.getAllWithNameShop = (info, result) => {
+  sql.query(
+    "SELECT id, name, name_category, is_activate, phone_number, address, create_date, code FROM sellershop WHERE name = ?",
+    [info.name],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        result(null, { status: true, data: res });
+      }
+    }
+  );
+};
 Shop.getAllWithUserAndShop = (info, result) => {
   sql.query(
     "SELECT `id`, `name`, `name_category`, `id_category`, `is_activate`, `phone_number`, `address`, `create_date`, `code`, `short_description`, `full_description`, image FROM sellershop WHERE id=? and code = ?",
