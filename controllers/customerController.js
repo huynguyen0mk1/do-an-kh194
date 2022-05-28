@@ -205,7 +205,7 @@ exports.createPayment = (req, res) => {
               vnp_Params["vnp_SecureHash"] = signed;
               vnpUrl +=
                 "?" + querystring.stringify(vnp_Params, { encode: false });
-              sendMail.send_mail(req.body.email, res);
+              sendMail.send_mail(req.body.email, req);
               res.json({
                 status: true,
                 data: vnpUrl,
@@ -216,7 +216,7 @@ exports.createPayment = (req, res) => {
                 req.body.id_user,
                 (err, resultDeleteAllCartOfUser) => {
                   if (resultDeleteAllCartOfUser.status === true) {
-                    sendMail.send_mail(req.body.email, res);
+                    sendMail.send_mail(req.body.email, req);
                     res.json({
                       status: true,
                       data: "No Links",
