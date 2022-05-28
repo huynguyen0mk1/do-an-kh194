@@ -5,20 +5,20 @@ exports.saveUser = (req, res) => {
   console.log(req.body.user);
   if (req.body.key === "111111111") {
     login.checkUser(req.body.user, (err, result) => {
-      if (err) res.json({ data: result });
+      if (err) res.json({ data: { ...result, content: "" } });
       else {
         if (result.data.length > 0)
           res.json({
-            data: { status: false, data: [] },
+            data: { status: false, data: [], content: "duplicate email" },
           });
         else
           login.saveUser(req.body.user, (err1, resultA) => {
-            if (err1) res.json({ data: resultA });
-            else res.json({ data: resultA });
+            if (err1) res.json({ data: { ...resultA, content: "" } });
+            else res.json({ data: { ...resultA, content: "" } });
           });
       }
     });
-  } else res.json({ data: { status: false, data: [] } });
+  } else res.json({ data: { status: false, data: [], content: "" } });
 };
 exports.saveNewSeller = (req, res) => {
   console.log(req.body.user);
@@ -158,6 +158,7 @@ exports.updateEmailUser = (req, res) => {
 exports.updatePasswordUser = (req, res) => {
   if (req.body.key === "111111111") {
     login.updatePasswordUser(req.body.user, (err, result) => {
+      console.log(req.body.user);
       if (err) res.json({ data: result });
       else res.json({ data: result });
     });

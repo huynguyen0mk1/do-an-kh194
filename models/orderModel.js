@@ -57,13 +57,61 @@ Order.getDTOfSellerOnWEEK = (info, result) => {
 
 Order.getSellerOrder = (info, result) => {
   sql.query(
-    "SELECT `id`, `create_date`,  `name_shop`,code_shipping,  `name_category`,  `total`,  `status`, `status_ship`, `name_ship` FROM `allorder` WHERE `code` = ?  ORDER BY create_date DESC",
+    "SELECT `id`, `create_date`,  `name_shop`,`name_user`,code_shipping,  `name_category`,  `total`,  `status`, `status_ship`, `name_ship` FROM `allorder` WHERE `code` = ?  ORDER BY create_date DESC",
     [info.code],
     (err, res) => {
       if (err) {
         result(err, { status: false, Message: err.sqlMessage, data: [] });
       } else {
         result(null, { status: true, data: res });
+      }
+    }
+  );
+};
+Order.getSellerUserOrder = (info, result) => {
+  sql.query(
+    "SELECT `id`, `create_date`, `name_shop`,`name_user`,`number_phone`,`email`,`full_name_shipping`,`number_phone_shipping`,`email_shipping`,`address_shipping`,`total`,`code_shipping`,`status`,`status_ship` FROM `allorder` WHERE `code` = ?  ORDER BY create_date DESC",
+    [info.code],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage, data: [] });
+      } else {
+        if (res.length > 0) {
+          let data = [];
+          for (let i in res) {
+            data.push({
+              ...res[i],
+              status_ship:
+                res[i].status_ship === undefined
+                  ? undefined
+                  : res[i].status_ship.toLowerCase() ===
+                      "đặt hàng".toLowerCase() ||
+                    res[i].status_ship.toLowerCase() ===
+                      "chuẩn bị hàng".toLowerCase()
+                  ? "Đang xử lý"
+                  : res[i].status_ship.toLowerCase() ===
+                    "Đã Giao Đơn Hàng Cho Đơn Vị Vận Chuyển".toLowerCase()
+                  ? "Đang vận chuyển"
+                  : res[i].status_ship.toLowerCase() === "Đã giao".toLowerCase()
+                  ? "Đã Giao Đơn Hàng"
+                  : res[i].status_ship.toLowerCase() ===
+                    "Đơn Hoàn Về".toLowerCase()
+                  ? "Đã huỷ"
+                  : "none",
+              status:
+                res[i].status === undefined
+                  ? undefined
+                  : res[i].status.toLowerCase() ===
+                    "Chưa Thanh Toán".toLowerCase()
+                  ? "Chờ thanh toán"
+                  : res[i].status.toLowerCase() ===
+                    "Đã thanh toán".toLowerCase()
+                  ? "Đã thanh toán"
+                  : "Hoàn Tiền",
+            });
+          }
+          result(null, { status: true, data: data });
+        }
       }
     }
   );

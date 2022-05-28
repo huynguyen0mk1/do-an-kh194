@@ -43,6 +43,7 @@ module.exports = function (app) {
   app.post("/seller/getSellerWeek", seller.getSellerWeek);
   app.post("/seller/getSellerMonth", seller.getSellerMonth);
   app.post("/seller/getSellerOrder", seller.getSellerOrder);
+  app.post("/seller/getSellerUserOrder", seller.getSellerUserOrder);
 
   app.post("/seller/getInforOrder", seller.getInforOrder);
   app.post("/seller/getInfoDetailOrder", seller.getInfoDetailOrder);

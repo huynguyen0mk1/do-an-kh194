@@ -67,7 +67,7 @@ Category.getAllCategory = (result) => {
 Category.getAllCategoryHot = (result) => {
   
       sql.query(
-        "SELECT id, name, image FROM category_hot LIMIT 20",
+        "SELECT id, name, image FROM category_hot LIMIT 12",
         (err, res) => {
           if (err) {
             result(err, { status: false, Message: err.sqlMessage, data: [] });

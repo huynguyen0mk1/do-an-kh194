@@ -20,9 +20,17 @@ exports.getAShop = (req, res) => {
   });
 };
 exports.newShop = (req, res) => {
-  shop.newShop(req.body.info, (err, result) => {
-    if (err) res.json({ data: result });
-    else res.json({ data: result });
+  shop.getAllWithUser(req.body.info, (err, resultGetAll) => {
+    if (err) res.json({ data: { ...resultGetAll, content: "" } });
+    else {
+      if (resultGetAll.data.length > 10) {
+        res.json({ data: { status: false, content: "max10" } });
+      } else
+        shop.newShop(req.body.info, (err, result) => {
+          if (err) res.json({ data: { ...result, content: "" } });
+          else res.json({ data: { ...result, content: "" } });
+        });
+    }
   });
 };
 exports.updateInfoShop = (req, res) => {
@@ -112,6 +120,12 @@ exports.getSellerMonth = (req, res) => {
 };
 exports.getSellerOrder = (req, res) => {
   order.getSellerOrder(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+exports.getSellerUserOrder = (req, res) => {
+  order.getSellerUserOrder(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
     else res.json({ data: result });
   });

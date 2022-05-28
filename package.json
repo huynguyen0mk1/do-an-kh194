@@ -30,6 +30,7 @@
     "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
     "nodemailer": "^6.4.16",
+    "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^2.0.15",
     "react-doc-viewer": "^0.1.5",
     "request": "^2.88.2",
