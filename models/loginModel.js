@@ -223,10 +223,26 @@ Login.updateEmailUser = (user, result) => {
 Login.updatePasswordUser = (user, result) => {
   {
     console.log(user);
-
     sql.query(
       "UPDATE users SET password=? WHERE id=?",
       [user.password, user.id],
+      (err, res) => {
+        if (err) {
+          result(err, { status: false, Message: err.sqlMessage });
+        } else {
+          result(null, { status: true });
+        }
+      }
+    );
+  }
+};
+
+Login.update_role = (user, result) => {
+  {
+    console.log(user);
+    sql.query(
+      "UPDATE users_role SET id_role=? WHERE id_user=?",
+      [user.id_role, user.id_user],
       (err, res) => {
         if (err) {
           result(err, { status: false, Message: err.sqlMessage });

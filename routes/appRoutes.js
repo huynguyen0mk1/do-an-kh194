@@ -20,6 +20,8 @@ module.exports = function (app) {
   app.post("/cap_nhat_tai_khoan/email", login.updateEmailUser);
   app.post("/cap_nhat_tai_khoan/password", login.updatePasswordUser);
 
+  app.post("/cap_nhat_tai_khoan/update_role", login.update_role);
+
   app.post("/dangkitaikhoanseller", login.saveNewSeller);
   app.post("/getRole", login.getRole);
 

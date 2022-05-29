@@ -164,3 +164,13 @@ exports.updatePasswordUser = (req, res) => {
     });
   } else res.json({ data: { status: false } });
 };
+
+exports.update_role = (req, res) => {
+  if (req.body.key === "111111111") {
+    login.update_role(req.body.user, (err, result) => {
+      console.log(req.body.user);
+      if (err) res.json({ data: result });
+      else res.json({ data: result });
+    });
+  } else res.json({ data: { status: false } });
+};
