@@ -59,6 +59,13 @@ exports.changAmount = (req, res) => {
   });
 };
 
+exports.changAmountCart = (req, res) => {
+  cart.changAmountCart(req.body.info, (err, result) => {
+    if (err) res.json({ data: result });
+    else res.json({ data: result });
+  });
+};
+
 exports.getAllProductCategory = (req, res) => {
   product.getAllProductCategory(req.body.info, (err, result) => {
     if (err) res.json({ data: result });

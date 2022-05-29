@@ -241,6 +241,20 @@ Cart.changAmount = (info, result) => {
     }
   );
 };
+Cart.changAmountCart = (info, result) => {
+  console.log(info);
+  sql.query(
+    "UPDATE cart SET amount=? WHERE id= ?",
+    [info.amount, info.id],
+    (err, res) => {
+      if (err) {
+        result(err, { status: false, Message: err.sqlMessage });
+      } else {
+        result(null, { status: true });
+      }
+    }
+  );
+};
 
 Cart.changeCart = (info, result) => {
   console.log(info);
