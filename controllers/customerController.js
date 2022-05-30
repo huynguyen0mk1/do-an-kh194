@@ -52,6 +52,12 @@ exports.getAShop = (req, res) => {
   });
 };
 
+exports.confirmAccount = (req, res) => {
+  sendMail.send_mail(req.body.email, (err, result) => {
+    res.json({ data: result });
+  });
+};
+
 exports.changAmount = (req, res) => {
   cart.changAmount(req.body.info, (err, result) => {
     if (err) res.json({ data: result });
@@ -212,7 +218,10 @@ exports.createPayment = (req, res) => {
               vnp_Params["vnp_SecureHash"] = signed;
               vnpUrl +=
                 "?" + querystring.stringify(vnp_Params, { encode: false });
-              sendMail.send_mail(req.body.email, req);
+              sendMail.send_mail(
+                req.body.email,
+                (err_send_mail, result_send_mail) => {}
+              );
               res.json({
                 status: true,
                 data: vnpUrl,
@@ -223,7 +232,10 @@ exports.createPayment = (req, res) => {
                 req.body.id_user,
                 (err, resultDeleteAllCartOfUser) => {
                   if (resultDeleteAllCartOfUser.status === true) {
-                    sendMail.send_mail(req.body.email, req);
+                    sendMail.send_mail(
+                      req.body.email,
+                      (err_send_mail, result_send_mail) => {}
+                    );
                     res.json({
                       status: true,
                       data: "No Links",

@@ -86,6 +86,7 @@ module.exports = function (app) {
   app.post("/customer/deleteACart", customer.deleteACart);
   app.post("/customer/createPayment", customer.createPayment);
   app.post("/customer/paymentReturn", customer.paymentReturn);
+  app.post("/customer/confirmAccount", customer.confirmAccount);
   app.post(
     "/customer/getAVoucherWithCodeInListId",
     customer.getAVoucherWithCodeInListId

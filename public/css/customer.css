@@ -4237,8 +4237,12 @@ li.current-dropdown > .nav-dropdown,
   max-height: inherit;
   left: -15px;
 }
+
+
+
 .nav-right li.current-dropdown:last-child > .nav-dropdown,
 .nav-right li.has-dropdown:hover:last-child > .nav-dropdown {
+  opacity: 1 !important;
   left: auto;
   right: -15px;
 }

@@ -1,6 +1,6 @@
 "use strict";
 var sql = require("./db.js");
-exports.send_mail = (info_email, req) => {
+exports.send_mail = (info_email, result) => {
   sql.query(
     "SELECT `id`, `key_1`, `key_2`, `value_1`, `value_2`, `description` FROM `tbl_common` WHERE key_1 = 'send_email' ORDER BY id ASC",
     (err, res) => {
@@ -23,7 +23,7 @@ exports.send_mail = (info_email, req) => {
               rejectUnauthorized: false,
             },
           });
-
+          console.log(info_email);
           const mailOptions = {
             from: `"ShopStar" <${res[0].value_2}>`,
             to: info_email.email,
@@ -32,14 +32,10 @@ exports.send_mail = (info_email, req) => {
           };
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-              console.log(error);
-            } else console.log("Email sent: ");
+              result(err, { status: false, Message: error });
+            } else result(null, { status: true, Message: "Email sent" });
           });
-        } else
-          console.log("send_mail " + info_email.subject, {
-            status: false,
-            line: 34,
-          });
+        } else result(err, { status: false, Message: "error send_mail" });
       }
     }
   );
